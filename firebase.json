@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": ".svelte-kit/output",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
