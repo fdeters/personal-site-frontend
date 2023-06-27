@@ -2,15 +2,15 @@
     import ExternalPlatformLink from "./ExternalPlatformLink.svelte";
 
     export let title;
-    export let links = [];  // { url, text }
+    export let links = []; // { url, text }
 </script>
 
-<section class="bg-white px-4 py-3 rounded-md">
+<section class="rounded-md bg-white px-4 py-3">
     <h2 class="mb-1 text-xl font-medium">
         {title}
     </h2>
     {#if links.length}
-        <div class="flex flex-wrap mb-2 gap-4">
+        <div class="mb-2 flex flex-wrap gap-4">
             {#each links as link}
                 <ExternalPlatformLink href={link.url}>
                     {link.text}
