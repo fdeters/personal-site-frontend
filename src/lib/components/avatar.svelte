@@ -3,6 +3,6 @@
     export let alt = "";
 </script>
 
-<div class="w-36 rounded-full overflow-hidden">
-    <img class="w-full" src={src} alt={alt}>
+<div class="w-36 overflow-hidden rounded-full">
+    <img class="w-full" {src} {alt} />
 </div>
