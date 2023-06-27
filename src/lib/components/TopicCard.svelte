@@ -10,7 +10,7 @@
         {title}
     </h2>
     {#if links.length}
-        <div class="mb-2 flex flex-wrap gap-4">
+        <div class="mb-2 flex flex-wrap gap-x-4 gap-y-1">
             {#each links as link}
                 <ExternalPlatformLink href={link.url}>
                     {link.text}
