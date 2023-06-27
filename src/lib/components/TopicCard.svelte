@@ -5,19 +5,28 @@
     export let links = []; // { url, text }
 </script>
 
-<section class="rounded-md bg-white px-4 py-3">
-    <h2 class="mb-1 text-xl font-medium">
-        {title}
-    </h2>
+<section
+    class="flex flex-col justify-between gap-4 rounded-md bg-white px-4 py-3"
+>
+    <div>
+        <h2 class="mb-2 text-xl font-medium">
+            {title}
+        </h2>
+        <slot />
+    </div>
     {#if links.length}
-        <div class="mb-2 flex flex-wrap gap-x-2 gap-y-1">
-            {#each links as link}
-                <ExternalPlatformLink href={link.url}>
-                    {link.text}
-                </ExternalPlatformLink>
-            {/each}
+        <div>
+            <hr class="mb-3" />
+            <div
+                class="flex flex-wrap gap-2"
+                aria-label="links to other platforms"
+            >
+                {#each links as link}
+                    <ExternalPlatformLink href={link.url}>
+                        {link.text}
+                    </ExternalPlatformLink>
+                {/each}
+            </div>
         </div>
     {/if}
-    <hr class="my-2" />
-    <slot />
 </section>
