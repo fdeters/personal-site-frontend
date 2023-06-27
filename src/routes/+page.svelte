@@ -1,5 +1,5 @@
 <script>
-    import Avatar from "../lib/components/Avatar.svelte";
+    import AvatarImage from "../lib/components/AvatarImage.svelte";
     import TopicCard from "../lib/components/TopicCard.svelte";
     import BodyLink from "../lib/components/BodyLink.svelte";
     import HeadshotImage from "../lib/assets/images/tokyo-drama.jpg";
