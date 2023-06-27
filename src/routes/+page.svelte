@@ -1,5 +1,5 @@
 <script>
-    import Avatar from "../lib/components/Avatar.svelte";
+    import AvatarImage from "../lib/components/AvatarImage.svelte";
     import TopicCard from "../lib/components/TopicCard.svelte";
     import BodyLink from "../lib/components/BodyLink.svelte";
     import HeadshotImage from "../lib/assets/images/tokyo-drama.jpg";
@@ -33,7 +33,7 @@
     <div class="mx-auto">
         <header class="mx-auto mb-6 max-w-md text-center">
             <div class="mb-4 flex flex-col items-center gap-2 pt-2">
-                <Avatar
+                <AvatarImage
                     src={HeadshotImage}
                     alt="A headshot of Forrest standing in front of a temple in Tokyo. Dramatic lighting bathes one side of his face in even white light. He's wearing a plain black t-shirt. It's a little self-serious."
                 />
