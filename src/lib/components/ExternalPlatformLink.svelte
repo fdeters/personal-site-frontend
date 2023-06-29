@@ -5,12 +5,14 @@
 </script>
 
 <a
-    class="rounded-md bg-[#f6efe6] px-1 italic text-yellow-700"
+    class="rounded-md bg-[#f6efe6] px-2 text-yellow-700
+        dark:bg-primary-500 dark:text-dark-600"
     {href}
     target="_blank"
 >
     <span
-        class="inline-flex items-center gap-2 hover:underline focus:underline"
+        class="inline-flex items-center gap-2 text
+            hover:underline focus:underline"
     >
         <slot />
         <IconOpenInNew style="height: 1rem" />
