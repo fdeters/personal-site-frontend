@@ -2,10 +2,10 @@
     import ExternalPlatformLink from "./ExternalPlatformLink.svelte";
 
     export let title;
-    export let links = []; // { url, text }
+    export let links = [];  // { url, text },
 </script>
 
-<section
+<section 
     class="flex flex-col justify-between gap-4 rounded-md bg-white px-4 py-3"
 >
     <div>

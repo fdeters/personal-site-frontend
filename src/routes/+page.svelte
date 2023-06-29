@@ -4,22 +4,8 @@
     import BodyLink from "../lib/components/BodyLink.svelte";
     import HeadshotImage from "../lib/assets/images/tokyo-drama.jpg";
 
-    const webDevLinks = [
-        { text: "GitHub", url: "https://github.com/fdeters" },
-        // { text: "", url: "" },
-    ];
-    const musicLinks = [
-        {
-            text: "a cappella EP",
-            url: "https://open.spotify.com/album/3IlRy2ECCIpTmS4LeEMEgR?si=2k2euYzHQsmjIzJgH2qb6w",
-        },
-        {
-            text: "sheet music store",
-            url: "https://www.sheetmusicplus.com/publishers/forrest-deters-sheet-music/3013113?narrow_by=forrest+deters",
-        },
-        { text: "SoundCloud", url: "https://soundcloud.com/fdetemusic" },
-        // { text: "", url: "" },
-    ];
+    /** @type {import('./$types').PageData} */
+    export let data;
 </script>
 
 <svelte:head>
@@ -54,7 +40,7 @@
             class="mx-auto flex max-w-md flex-col gap-4
             lg:grid lg:max-w-3xl lg:grid-cols-2"
         >
-            <TopicCard title="Web Development" links={webDevLinks}>
+            <TopicCard title="Web Development" links={data.webdev.links}>
                 <p>
                     I spend my weekdays making web applications with the dev
                     team at <BodyLink
@@ -65,7 +51,7 @@
                     </BodyLink> , Portland's regional government.
                 </p>
             </TopicCard>
-            <TopicCard title="Music" links={musicLinks}>
+            <TopicCard title="Music" links={data.music.links}>
                 <p>
                     These days, I perform and arrange vocal music for fun and
                     semi-professionally.

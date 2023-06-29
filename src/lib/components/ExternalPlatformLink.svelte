@@ -1,5 +1,5 @@
 <script>
-    import IconOpenInNew from '~icons/mdi/open-in-new';
+    import IconOpenInNew from "~icons/mdi/open-in-new";
 
     export let href;
 </script>
