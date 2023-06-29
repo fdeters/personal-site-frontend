@@ -8,6 +8,7 @@
 <section
     class="flex flex-col justify-between gap-4 rounded-md bg-white px-4 py-3
         dark:bg-dark-500"
+    aria-label={title}
 >
     <div>
         <h2 class="mb-2 text-xl font-medium">
