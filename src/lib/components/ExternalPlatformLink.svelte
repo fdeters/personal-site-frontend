@@ -11,7 +11,7 @@
     target="_blank"
 >
     <span
-        class="inline-flex items-center gap-2 text
+        class="text inline-flex items-center gap-2
             hover:underline focus:underline"
     >
         <slot />

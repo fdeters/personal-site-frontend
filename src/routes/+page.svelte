@@ -39,8 +39,7 @@
     >
         <TopicCard title="Web Development" links={data.webdev.links}>
             <p>
-                I spend my weekdays making web applications with the dev
-                team at <BodyLink
+                I spend my weekdays making web applications with the dev team at <BodyLink
                     href="https://oregonmetro.gov"
                     target="_blank"
                 >

@@ -2,7 +2,7 @@
     import ExternalPlatformLink from "./ExternalPlatformLink.svelte";
 
     export let title;
-    export let links = [];  // { url, text },
+    export let links = []; // { url, text },
 </script>
 
 <section
