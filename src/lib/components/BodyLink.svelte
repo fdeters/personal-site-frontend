@@ -6,7 +6,7 @@
 
 <a
     class="border-b border-blue-400 text-blue-400
-    hover:border-b-2 hover:font-bold focus:border-b-2 focus:font-bold"
+        hover:border-b-2 hover:font-bold focus:border-b-2 focus:font-bold"
     {href}
     {target}
     {rel}
