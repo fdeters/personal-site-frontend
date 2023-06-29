@@ -55,5 +55,3 @@
         </TopicCard>
     </main>
 </div>
-<footer />
-<!-- <a target="_blank" href="https://icons8.com/icon/741/external-link">External Link</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
