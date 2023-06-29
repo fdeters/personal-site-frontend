@@ -23,7 +23,7 @@
             <hr class="mb-3 dark:border-gray-400" />
             <div
                 class="flex flex-wrap gap-2"
-                aria-label="links to other platforms"
+                aria-label="Links to other platforms"
             >
                 {#each links as link}
                     <ExternalPlatformLink href={link.url}>
