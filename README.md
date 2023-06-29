@@ -3,6 +3,9 @@
 My personal site frontend. Built with SvelteKit + Vite and integrated with Firebase.
 Tailwind CSS for styling, and Prettier for code formatiing.
 
+## To Do
+- [ ] Make it easier to tap on external links on mobile (buttons are very small right now)
+
 ## Developing
 
 Use the `develop` branch for development, since `main` is set up in CI with the live site.
