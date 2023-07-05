@@ -6,6 +6,21 @@
 
     /** @type {import('./$types').PageData} */
     export let data;
+
+    function sortLinksByClicks(links) {
+        return [...links].sort((link1, link2) => {
+            if (link1.clicks === undefined) link1.clicks = 0;
+            if (link2.clicks === undefined) link2.clicks = 0;
+
+            if (link1.clicks < link2.clicks) {
+                return 1;
+            }
+            if (link1.clicks > link2.clicks) {
+                return -1;
+            }
+            return 0;
+        });
+    }
 </script>
 
 <svelte:head>
@@ -37,7 +52,11 @@
         class="mx-auto flex max-w-md flex-col gap-4
         lg:grid lg:max-w-3xl lg:grid-cols-2"
     >
-        <TopicCard title="Web Development" links={data.webdev.links}>
+        <TopicCard
+            title="Web Development"
+            topicId="webdev"
+            links={sortLinksByClicks(data.webdev.links)}
+        >
             <p>
                 I spend my weekdays making web applications with the dev team at <BodyLink
                     href="https://oregonmetro.gov"
@@ -47,7 +66,11 @@
                 </BodyLink> , Portland's regional government.
             </p>
         </TopicCard>
-        <TopicCard title="Music" links={data.music.links}>
+        <TopicCard
+            title="Music"
+            topicId="music"
+            links={sortLinksByClicks(data.music.links)}
+        >
             <p>
                 These days, I perform and arrange vocal music for fun and
                 semi-professionally.
@@ -55,5 +78,3 @@
         </TopicCard>
     </main>
 </div>
-<footer />
-<!-- <a target="_blank" href="https://icons8.com/icon/741/external-link">External Link</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->

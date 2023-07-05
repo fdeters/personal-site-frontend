@@ -1,33 +1,21 @@
-# create-svelte
+# personal-site-frontend
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+My personal site frontend. Built with SvelteKit + Vite and integrated with Firebase.
+Tailwind CSS for styling, and Prettier for code formatiing.
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## To Do
+- [ ] Make it easier to tap on external links on mobile (buttons are very small right now)
+- [x] Add a "clicks" attribute to each external link in the database, and increment every time someone uses the link
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Use the `develop` branch for development, since `main` is set up in CI with the live site.
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Name new feature branches like this: `feature/<name>`. For example, `feature/dark-mode`.
 
 ## Building
 
-To create a production version of your app:
+To create a production version of the app:
 
 ```bash
 npm run build
@@ -35,4 +23,4 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+This app uses the `@sveltejs/adapter-static` for hosting. Static files are generated and hosted in CI with GitHub Actions to deploy to the live site.
