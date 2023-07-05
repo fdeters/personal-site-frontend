@@ -52,7 +52,11 @@
         class="mx-auto flex max-w-md flex-col gap-4
         lg:grid lg:max-w-3xl lg:grid-cols-2"
     >
-        <TopicCard title="Web Development" topicId="webdev" links={sortLinksByClicks(data.webdev.links)}>
+        <TopicCard
+            title="Web Development"
+            topicId="webdev"
+            links={sortLinksByClicks(data.webdev.links)}
+        >
             <p>
                 I spend my weekdays making web applications with the dev team at <BodyLink
                     href="https://oregonmetro.gov"
@@ -62,7 +66,11 @@
                 </BodyLink> , Portland's regional government.
             </p>
         </TopicCard>
-        <TopicCard title="Music" topicId="music" links={sortLinksByClicks(data.music.links)}>
+        <TopicCard
+            title="Music"
+            topicId="music"
+            links={sortLinksByClicks(data.music.links)}
+        >
             <p>
                 These days, I perform and arrange vocal music for fun and
                 semi-professionally.

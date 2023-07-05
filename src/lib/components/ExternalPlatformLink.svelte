@@ -7,14 +7,16 @@
     export let currentClicks = 0;
 
     async function trackExternalLinkClick(topic, linkId, currentClicks) {
-        const url = new URL('https://personal-site-e7709-default-rtdb.firebaseio.com');
+        const url = new URL(
+            "https://personal-site-e7709-default-rtdb.firebaseio.com"
+        );
         url.pathname = `topics/${topic}/links/${linkId}/.json`;
 
         await fetch(url, {
-            method: 'PATCH',
-            body: JSON.stringify({ "clicks": currentClicks + 1 }),
+            method: "PATCH",
+            body: JSON.stringify({ clicks: currentClicks + 1 }),
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         });
     }

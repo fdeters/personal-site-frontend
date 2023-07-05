@@ -27,7 +27,7 @@
                 aria-label="Links to other platforms"
             >
                 {#each links as link}
-                    <ExternalPlatformLink 
+                    <ExternalPlatformLink
                         href={link.url}
                         topic={topicId}
                         linkId={link.id}
