@@ -10,9 +10,12 @@ export async function load({ fetch }) {
         if (data.hasOwnProperty(topic)) {
             if (data[topic].hasOwnProperty("links")) {
                 const links = data[topic].links;
-                data[topic].links = Object.keys(links).map(
-                    (linkKey) => links[linkKey]
-                );
+                data[topic].links = Object.keys(links).map((linkId) => {
+                    return {
+                        id: linkId,
+                        ...links[linkId],
+                    };
+                });
             }
         }
     }
