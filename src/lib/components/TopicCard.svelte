@@ -2,7 +2,8 @@
     import ExternalPlatformLink from "./ExternalPlatformLink.svelte";
 
     export let title;
-    export let links = []; // { url, text },
+    export let topicId;
+    export let links = []; // { id, url, text },
 </script>
 
 <section
@@ -26,7 +27,12 @@
                 aria-label="Links to other platforms"
             >
                 {#each links as link}
-                    <ExternalPlatformLink href={link.url}>
+                    <ExternalPlatformLink 
+                        href={link.url}
+                        topic={topicId}
+                        linkId={link.id}
+                        currentClicks={link.clicks}
+                    >
                         {link.text}
                     </ExternalPlatformLink>
                 {/each}
