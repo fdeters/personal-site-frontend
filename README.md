@@ -3,6 +3,10 @@
 My personal site frontend. Built with SvelteKit + Vite and integrated with Firebase.
 Tailwind CSS for styling, and Prettier for code formatiing.
 
+## To Do
+- [ ] Make it easier to tap on external links on mobile (buttons are very small right now)
+- [ ] Add a "clicks" attribute to each external link in the database, and increment every time someone uses the link
+
 ## Developing
 
 Use the `develop` branch for development, since `main` is set up in CI with the live site.
