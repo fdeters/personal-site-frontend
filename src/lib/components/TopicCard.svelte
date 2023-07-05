@@ -3,7 +3,7 @@
 
     export let title;
     export let topicId;
-    export let links = []; // { id, url, text },
+    export let links = []; // { id, url, text, clicks }
 </script>
 
 <section
