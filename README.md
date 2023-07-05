@@ -5,7 +5,7 @@ Tailwind CSS for styling, and Prettier for code formatiing.
 
 ## To Do
 - [ ] Make it easier to tap on external links on mobile (buttons are very small right now)
-- [ ] Add a "clicks" attribute to each external link in the database, and increment every time someone uses the link
+- [x] Add a "clicks" attribute to each external link in the database, and increment every time someone uses the link
 
 ## Developing
 
