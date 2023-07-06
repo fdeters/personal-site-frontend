@@ -23,14 +23,14 @@
 </script>
 
 <a
-    class="rounded-md bg-[#f6efe6] px-2 text-yellow-700
+    class="rounded-md bg-[#f6efe6] px-2 text-yellow-700 min-h-[2.3rem]
         dark:bg-primary-500 dark:text-dark-600"
     {href}
     target="_blank"
     on:click={() => trackExternalLinkClick(topic, linkId, currentClicks)}
 >
     <span
-        class="text inline-flex items-center gap-2
+        class="text inline-flex items-center gap-1 h-full
             hover:underline focus:underline"
     >
         <slot />
