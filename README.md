@@ -4,7 +4,7 @@ My personal site frontend. Built with SvelteKit + Vite and integrated with Fireb
 Tailwind CSS for styling, and Prettier for code formatiing.
 
 ## To Do
-- [ ] Make it easier to tap on external links on mobile (buttons are very small right now)
+- [x] Make it easier to tap on external links on mobile (buttons are very small right now)
 - [x] Add a "clicks" attribute to each external link in the database, and increment every time someone uses the link
 
 ## Developing
@@ -15,7 +15,7 @@ Name new feature branches like this: `feature/<name>`. For example, `feature/dar
 
 ## Building
 
-To create a production version of the app:
+To create a production version of the app
 
 ```bash
 npm run build
