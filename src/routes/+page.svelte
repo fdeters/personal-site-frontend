@@ -58,12 +58,13 @@
             links={sortLinksByClicks(data.webdev.links)}
         >
             <p>
-                I spend my weekdays making web applications with the dev team at <BodyLink
+                I spend my weekdays making web applications for the Data
+                Resource Center at <BodyLink
                     href="https://oregonmetro.gov"
                     target="_blank"
                 >
                     Metro
-                </BodyLink> , Portland's regional government.
+                </BodyLink>, Portland's regional government.
             </p>
         </TopicCard>
         <TopicCard
