@@ -4,6 +4,7 @@ My personal site frontend. Built with SvelteKit + Vite and integrated with Fireb
 Tailwind CSS for styling, and Prettier for code formatiing.
 
 ## To Do
+
 - [x] Make it easier to tap on external links on mobile (buttons are very small right now)
 - [x] Add a "clicks" attribute to each external link in the database, and increment every time someone uses the link
 - [ ] Fix database clicks attribute not incrementing past 1
