@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     extend: {
       colors: {
@@ -27,10 +27,9 @@ export default {
           400: "#4b4540",
           500: "#352f29",
           600: "#201a14",
-        }
-      }
+        },
+      },
     },
   },
   plugins: [],
-}
-
+};
