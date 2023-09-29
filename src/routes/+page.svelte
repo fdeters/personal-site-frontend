@@ -62,9 +62,7 @@
                 Resource Center at <BodyLink
                     href="https://oregonmetro.gov"
                     target="_blank"
-                >
-                    Metro
-                </BodyLink>, Portland's regional government.
+                >Metro</BodyLink>, Portland's regional government.
             </p>
         </TopicCard>
         <TopicCard
