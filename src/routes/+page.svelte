@@ -35,11 +35,11 @@
         alt="A headshot of Forrest standing in front of a temple in Tokyo. Dramatic lighting bathes one side of his face in even white light. He's wearing a plain black t-shirt. It's a little self-serious."
       />
       <div
-        class="flex flex-col items-center gap-2 rounded-md bg-white px-4 pb-4 pt-3 
-        dark:bg-dark-500"
+        class="mt-2 flex flex-col items-center gap-2 rounded-md bg-white px-4 pb-4
+        pt-3 dark:bg-dark-500"
       >
         <h1
-          class="w-fit border-b-2 border-gray-300 px-1 text-2xl font-medium 
+          class="w-fit border-b-2 border-gray-300 px-1 text-2xl font-medium
           dark:border-darkmixed-100"
         >
           Forrest Deters
