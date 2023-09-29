@@ -28,15 +28,19 @@
 </svelte:head>
 
 <div class="mx-auto">
-  <header class="mx-auto mb-6 max-w-md text-center">
-    <div class="mb-4 flex flex-col items-center gap-2 pt-2">
+  <header class="mx-auto mb-4 max-w-md text-center">
+    <div class="mb-4 mt-2 flex flex-col items-center gap-4">
       <AvatarImage
         src={HeadshotImage}
         alt="A headshot of Forrest standing in front of a temple in Tokyo. Dramatic lighting bathes one side of his face in even white light. He's wearing a plain black t-shirt. It's a little self-serious."
       />
-      <div class="bg-white p-4">
+      <div
+        class="flex flex-col items-center gap-2 rounded-md bg-white px-4 pb-4 pt-3 
+        dark:bg-dark-500"
+      >
         <h1
-          class="border-b-2 border-gray-300 px-1 text-2xl font-medium dark:border-darkmixed-100"
+          class="w-fit border-b-2 border-gray-300 px-1 text-2xl font-medium 
+          dark:border-darkmixed-100"
         >
           Forrest Deters
         </h1>
@@ -57,9 +61,9 @@
     >
       <p>
         I spend my weekdays making web applications for the Data Resource Center
-        at <BodyLink href="https://oregonmetro.gov" target="_blank">
-          Metro
-        </BodyLink>, Portland's regional government.
+        at <BodyLink href="https://oregonmetro.gov" target="_blank"
+          >Metro</BodyLink
+        >, Portland's regional government.
       </p>
     </TopicCard>
     <TopicCard

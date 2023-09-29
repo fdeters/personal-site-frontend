@@ -24,7 +24,7 @@
 
 <a
   class="min-h-[2.3rem] rounded-md bg-[#f6efe6] px-2 text-yellow-700
-        dark:bg-primary-500 dark:text-dark-600"
+        dark:bg-primary-400 dark:text-dark-600"
   {href}
   target="_blank"
   on:click={() => trackExternalLinkClick(topic, linkId, currentClicks)}

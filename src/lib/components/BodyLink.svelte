@@ -4,6 +4,6 @@
   export let rel = "";
 </script>
 
-<a class="text-blue-400 underline" {href} {target} {rel}>
+<a class="text-blue-400 underline dark:text-blue-300" {href} {target} {rel}>
   <slot />
 </a>
