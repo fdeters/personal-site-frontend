@@ -1,9 +1,17 @@
 <script>
   import IconPlus from '~icons/mdi/plus';
+  import BallotForm from './components/Ballot.svelte';
+  import Ballot from './models/Ballot';
   import Candidate from './models/Candidate';
 
   let newCandidateName = '';
-  let candidates = [];
+
+  // let candidates = [];
+  // let ballots = [];
+  let candidates = [new Candidate('Sanders'), new Candidate('Harris')];
+  let ballots = [new Ballot(candidates)];
+
+  $: ballots = Array(ballots.length).fill(new Ballot(candidates));
 
   const addCandidate = () => {
     if (newCandidateName) {
@@ -11,6 +19,9 @@
       candidates = [...candidates, newCandidate];
       newCandidateName = '';
     }
+  };
+  const addBallot = () => {
+    ballots = [...ballots, new Ballot(candidates)];
   };
 </script>
 
@@ -43,4 +54,15 @@
 </form>
 
 <h2 class="mt-4">Ballots</h2>
-<button on:click={() => (numBallots += 1)}> Add ballot </button>
+{#if candidates.length > 1}
+  <form>
+    {#each ballots as ballot, i}
+      <BallotForm {ballot} ballotNumber={i+1} />
+    {:else}
+      <p class="text-gray-400">Add a ballot to start voting</p>
+    {/each}
+  </form>
+{:else}
+  <p class="text-gray-400">Add some candidates to get started</p>
+{/if}
+<button on:click={addBallot}>Add ballot</button>

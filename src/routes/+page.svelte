@@ -78,11 +78,11 @@
   </TopicCard>
 </main>
 
-<footer class="sticky bottom-0 mx-auto flex justify-center py-3">
+<footer class="mt-6 flex max-w-md mx-auto justify-center border-t pt-4">
   <nav>
     <a
       href="/tools"
-      class="hocus:text-blue-400 rounded-md bg-gray-100 px-2 py-1 text-gray-600 underline shadow-md"
+      class="px-2 py-1 text-gray-600 underline hocus:text-blue-600"
     >
       Tools
     </a>
