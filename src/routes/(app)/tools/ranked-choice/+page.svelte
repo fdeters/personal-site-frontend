@@ -101,7 +101,7 @@
   let mounted = false;
   onMount(() => { mounted = true; });
 
-  $: if (mounted && (candidates || ballots)) saveState();
+  $: if (mounted) { candidates; ballots; saveState(); }
 
   // ── Option management ────────────────────────────────────────────────────
   const addOption = () => {
