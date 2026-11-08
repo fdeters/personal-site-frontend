@@ -8,6 +8,12 @@ and Prettier for code formatting.
 
 None right now.
 
+## Feature research
+
+Requirements, architecture considerations, security guidance, and unresolved
+product questions for persistent ranked-choice elections are recorded in
+[`docs/ranked-choice-elections-research.md`](docs/ranked-choice-elections-research.md).
+
 ## Developing
 
 Name new feature branches like this: `feature/<name>`. For example, `feature/dark-mode`.
