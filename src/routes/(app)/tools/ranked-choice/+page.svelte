@@ -55,6 +55,11 @@
   /** @type {HistoryEntry[]} */
   let history = [];
   let showHistory = false;
+  let confirmingClearSavedData = false;
+  /** @type {HTMLButtonElement | undefined} */
+  let clearSavedDataButton;
+  /** @type {HTMLButtonElement | undefined} */
+  let clearSavedDataConfirmationButton;
   let showResetConfirmation = false;
   /** @type {HTMLButtonElement | undefined} */
   let resetConfirmationButton;
@@ -62,6 +67,10 @@
   // ── Persistence helpers ──────────────────────────────────────────────────
   function saveState() {
     try {
+      if (candidates.length === 0 && ballots.length === 0) {
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
       const data = {
         candidates: candidates.map((c) => c.name),
         ballots: ballots.map((b) => b.toJSON()),
@@ -125,13 +134,28 @@
     }
   }
 
-  function clearSavedData() {
+  async function requestClearSavedData() {
+    confirmingClearSavedData = true;
+    await tick();
+    clearSavedDataConfirmationButton?.focus();
+  }
+
+  async function clearSavedData() {
+    confirmingClearSavedData = false;
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(HISTORY_KEY);
     candidates = [];
     ballots = [];
     result = null;
     history = [];
+    await tick();
+    clearSavedDataButton?.focus();
+  }
+
+  async function cancelClearSavedData() {
+    confirmingClearSavedData = false;
+    await tick();
+    clearSavedDataButton?.focus();
   }
 
   onMount(() => {
@@ -442,12 +466,46 @@
       </button>
       <button
         type="button"
+        bind:this={clearSavedDataButton}
         class="danger-text text-sm underline"
-        on:click={clearSavedData}
+        aria-expanded={confirmingClearSavedData}
+        aria-controls="clear-saved-data-confirmation"
+        on:click={requestClearSavedData}
       >
         Clear all saved data
       </button>
     </div>
+
+    {#if confirmingClearSavedData}
+      <div
+        id="clear-saved-data-confirmation"
+        class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 p-3 text-sm"
+        role="group"
+        aria-label="Confirm clearing saved data"
+      >
+        <p>
+          Are you sure? This will permanently delete your saved elections and
+          history.
+        </p>
+        <div class="mt-2 flex gap-2">
+          <button
+            type="button"
+            bind:this={clearSavedDataConfirmationButton}
+            class="bg-primary-600 hocus:bg-yellow-800 rounded px-3 py-1 text-white"
+            on:click={clearSavedData}
+          >
+            Clear saved data
+          </button>
+          <button
+            type="button"
+            class="dark:border-darkmixed-300 rounded border border-gray-300 px-3 py-1"
+            on:click={cancelClearSavedData}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    {/if}
 
     <div id="election-history" hidden={!showHistory}>
       {#if showHistory}
