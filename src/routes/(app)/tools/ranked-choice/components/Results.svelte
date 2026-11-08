@@ -23,7 +23,7 @@
       {#each result.rounds as round, i}
         <div>
           <h3 class="font-medium">Round {i + 1}</h3>
-          <table class="mt-1 w-full text-sm">
+          <table class="mt-1 w-full text-base">
             <thead>
               <tr
                 class="dark:border-darkmixed-300 border-b text-left text-gray-600 dark:text-gray-400"

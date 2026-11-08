@@ -46,11 +46,11 @@
     {#each { length: visibleRanks } as _, i (i)}
       {@const ranked = ballot.ranking[i] ?? null}
       <label class="flex items-center gap-2">
-        <span class="w-16 shrink-0 text-sm text-gray-600 dark:text-gray-400"
+        <span class="w-16 shrink-0 text-base text-gray-600 dark:text-gray-400"
           >#{i + 1}</span
         >
         <select
-          class="dark:border-darkmixed-300 dark:bg-dark-500 max-w-full min-w-0 flex-1 rounded border border-gray-300 bg-white px-2 py-1 text-sm"
+          class="dark:border-darkmixed-300 dark:bg-dark-500 max-w-full min-w-0 flex-1 rounded border border-gray-300 bg-white px-2 py-1 text-base"
           value={ranked?.name ?? ''}
           on:change={(e) => selectCandidate(e, i + 1)}
         >

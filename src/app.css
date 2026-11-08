@@ -6,7 +6,7 @@
   --color-primary-300: #c6945e;
   --color-primary-400: #ba8344;
   --color-primary-500: #ae722a;
-  --color-primary-600: #a16207;
+  --color-primary-600: #9a5a00;
 
   --color-dark-100: #8b8b8b;
   --color-dark-200: #717171;
@@ -215,7 +215,7 @@
   .tool-header nav {
     display: flex;
     gap: 24px;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
   }
 
@@ -294,7 +294,7 @@
 
   .tool-directory-card small {
     margin-top: 6px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .voting-tool {

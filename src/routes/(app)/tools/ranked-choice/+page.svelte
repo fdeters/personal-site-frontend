@@ -279,7 +279,7 @@
 <main class="voting-tool max-w-xl" id="tool-main" tabindex="-1">
   <p class="tool-kicker">Forrest Deters / Tools</p>
   <h1>Ranked Choice Voting</h1>
-  <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+  <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
     Can't decide where to eat or what to do? Add your options, have everyone
     fill out a ballot, and let ranked-choice voting pick a winner.
   </p>
@@ -290,7 +290,7 @@
       Options
     </h2>
     {#if candidates.length === 0}
-      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+      <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
         No options yet. Add some below.
       </p>
     {:else}
@@ -313,7 +313,7 @@
     {/if}
 
     <form class="mt-3" on:submit|preventDefault={addOption}>
-      <label for="new-option-name" class="block text-sm font-medium"
+      <label for="new-option-name" class="block text-base font-medium"
         >New option name</label
       >
       <div class="mt-1 flex gap-2">
@@ -324,7 +324,7 @@
           placeholder="Add an option…"
           aria-invalid={optionError ? 'true' : undefined}
           aria-describedby={optionError ? 'option-error' : undefined}
-          class="dark:border-darkmixed-300 dark:bg-dark-500 flex-1 rounded border border-gray-300 px-2 py-1 text-sm"
+          class="dark:border-darkmixed-300 dark:bg-dark-500 flex-1 rounded border border-gray-300 px-2 py-1 text-base"
           bind:this={optionInput}
           bind:value={newOptionName}
           on:input={() => (optionError = '')}
@@ -338,7 +338,7 @@
           <span class="sr-only">Add option</span>
         </button>
       </div>
-      <p id="option-error" class="option-error mt-1 text-sm" role="status">
+      <p id="option-error" class="option-error mt-1 text-base" role="status">
         {optionError}
       </p>
     </form>
@@ -349,11 +349,11 @@
     <h2 class="text-lg font-semibold">Ballots</h2>
 
     {#if candidates.length < 2}
-      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+      <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
         Add at least 2 options to start voting.
       </p>
     {:else if ballots.length === 0}
-      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+      <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
         Add a ballot to start voting.
       </p>
     {:else}
@@ -385,7 +385,7 @@
       <button
         type="button"
         bind:this={addBallotButton}
-        class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 px-3 py-1 text-sm"
+        class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 px-3 py-1 text-base"
         on:click={addBallot}
       >
         + Add ballot
@@ -405,8 +405,8 @@
     </button>
     <button
       type="button"
+      class="dark:border-darkmixed-300 rounded border border-gray-300 px-4 py-2 text-base"
       bind:this={resetButton}
-      class="dark:border-darkmixed-300 rounded border border-gray-300 px-4 py-2 text-sm"
       on:click={requestReset}
     >
       Reset
@@ -414,7 +414,7 @@
   </div>
   {#if showResetConfirmation}
     <div
-      class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 p-3 text-sm"
+      class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 p-3 text-base"
       role="group"
       aria-label="Confirm reset"
     >
@@ -457,7 +457,7 @@
     <div class="flex items-center justify-between">
       <button
         type="button"
-        class="text-sm text-gray-600 underline dark:text-gray-400"
+        class="text-base text-gray-600 underline dark:text-gray-400"
         aria-expanded={showHistory}
         aria-controls="election-history"
         on:click={() => (showHistory = !showHistory)}
@@ -466,8 +466,8 @@
       </button>
       <button
         type="button"
+        class="danger-text text-base underline"
         bind:this={clearSavedDataButton}
-        class="danger-text text-sm underline"
         aria-expanded={confirmingClearSavedData}
         aria-controls="clear-saved-data-confirmation"
         on:click={requestClearSavedData}
@@ -510,14 +510,14 @@
     <div id="election-history" hidden={!showHistory}>
       {#if showHistory}
         {#if history.length === 0}
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
             No past elections saved.
           </p>
         {:else}
           <div class="mt-3 flex flex-col gap-4">
             {#each history as entry}
               <div
-                class="dark:border-darkmixed-300 rounded border border-gray-200 p-3 text-sm"
+                class="dark:border-darkmixed-300 rounded border border-gray-200 p-3 text-base"
               >
                 <p class="font-medium">
                   {new Date(entry.date).toLocaleString()} ·
