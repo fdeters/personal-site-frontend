@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import IconPlus from '~icons/mdi/plus';
   import IconTrash from '~icons/mdi/trash-can-outline';
   import BallotForm from './components/Ballot.svelte';
@@ -34,6 +34,13 @@
 
   // ── State ────────────────────────────────────────────────────────────────
   let newOptionName = '';
+  let optionError = '';
+  /** @type {HTMLInputElement} */
+  let optionInput;
+  /** @type {HTMLButtonElement | undefined} */
+  let addBallotButton;
+  /** @type {HTMLDivElement | undefined} */
+  let ballotContainer;
   /** @type {Candidate[]} */
   let candidates = [];
   /** @type {Ballot[]} */
@@ -139,7 +146,17 @@
   // ── Option management ────────────────────────────────────────────────────
   const addOption = () => {
     const name = newOptionName.trim();
-    if (!name) return;
+    if (!name) {
+      optionError = 'Enter an option name.';
+      optionInput.focus();
+      return;
+    }
+    if (candidates.some((candidate) => candidate.name === name)) {
+      optionError = 'That option has already been added.';
+      optionInput.focus();
+      return;
+    }
+    optionError = '';
     const candidate = new Candidate(name);
     candidates = [...candidates, candidate];
     ballots = ballots.map((b) => {
@@ -150,24 +167,34 @@
   };
 
   /** @param {Candidate} candidate */
-  const removeOption = (candidate) => {
+  const removeOption = async (candidate) => {
     candidates = candidates.filter((c) => c !== candidate);
     ballots = ballots.map((b) => {
       b.removeCandidate(candidate);
       return b;
     });
     result = null;
+    await tick();
+    optionInput.focus();
   };
 
   // ── Ballot management ────────────────────────────────────────────────────
-  const addBallot = () => {
+  const addBallot = async () => {
     ballots = [...ballots, new Ballot(candidates)];
+    await tick();
+    ballotContainer
+      ?.querySelectorAll('fieldset')
+      .item(ballots.length - 1)
+      ?.querySelector('select')
+      ?.focus();
   };
 
   /** @param {number} index */
-  const removeBallot = (index) => {
+  const removeBallot = async (index) => {
     ballots = ballots.filter((_, i) => i !== index);
     result = null;
+    await tick();
+    addBallotButton?.focus();
   };
 
   const resetSession = () => {
@@ -190,7 +217,7 @@
   <title>Ranked Choice Voting – forrestdeters.com</title>
 </svelte:head>
 
-<main class="voting-tool mx-auto max-w-xl">
+<main class="voting-tool mx-auto max-w-xl" id="tool-main" tabindex="-1">
   <p class="tool-kicker">Forrest Deters / Tools</p>
   <h1>Ranked Choice Voting</h1>
   <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
@@ -224,24 +251,35 @@
       </ul>
     {/if}
 
-    <form class="mt-3 flex gap-2" on:submit|preventDefault={addOption}>
-      <input
-        type="text"
-        name="new-option-name"
-        id="new-option-name"
-        aria-label="New option name"
-        placeholder="Add an option…"
-        class="dark:border-darkmixed-300 dark:bg-dark-500 flex-1 rounded border border-gray-300 px-2 py-1 text-sm"
-        bind:value={newOptionName}
-      />
-      <button
-        type="submit"
-        title="Add option"
-        class="bg-primary-600 hocus:bg-yellow-800 rounded px-2 py-1 text-white"
+    <form class="mt-3" on:submit|preventDefault={addOption}>
+      <label for="new-option-name" class="block text-sm font-medium"
+        >New option name</label
       >
-        <IconPlus />
-        <span class="sr-only">Add option</span>
-      </button>
+      <div class="mt-1 flex gap-2">
+        <input
+          type="text"
+          name="new-option-name"
+          id="new-option-name"
+          placeholder="Add an option…"
+          aria-invalid={optionError ? 'true' : undefined}
+          aria-describedby={optionError ? 'option-error' : undefined}
+          class="dark:border-darkmixed-300 dark:bg-dark-500 flex-1 rounded border border-gray-300 px-2 py-1 text-sm"
+          bind:this={optionInput}
+          bind:value={newOptionName}
+          on:input={() => (optionError = '')}
+        />
+        <button
+          type="submit"
+          title="Add option"
+          class="bg-primary-600 hocus:bg-yellow-800 rounded px-2 py-1 text-white"
+        >
+          <IconPlus />
+          <span class="sr-only">Add option</span>
+        </button>
+      </div>
+      <p id="option-error" class="option-error mt-1 text-sm" role="status">
+        {optionError}
+      </p>
     </form>
   </section>
 
@@ -258,7 +296,7 @@
         Add a ballot to start voting.
       </p>
     {:else}
-      <div class="mt-2 flex flex-col gap-3">
+      <div class="mt-2 flex flex-col gap-3" bind:this={ballotContainer}>
         {#each ballots as ballot, i (i)}
           <div class="flex gap-2">
             <div class="min-w-0 flex-1">
@@ -285,6 +323,7 @@
     {#if candidates.length >= 2}
       <button
         type="button"
+        bind:this={addBallotButton}
         class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 px-3 py-1 text-sm"
         on:click={addBallot}
       >
@@ -313,6 +352,13 @@
   </div>
 
   <!-- ── Results ─────────────────────────────────────────────────────────── -->
+  <p class="sr-only" role="status" aria-atomic="true">
+    {#if result}
+      {result.winner
+        ? `Winner: ${result.winner.name}.`
+        : 'No winner; all remaining options were tied.'}
+    {/if}
+  </p>
   <Results {result} />
 
   <!-- ── History & storage ───────────────────────────────────────────────── -->
@@ -321,6 +367,8 @@
       <button
         type="button"
         class="text-sm text-gray-600 underline dark:text-gray-400"
+        aria-expanded={showHistory}
+        aria-controls="election-history"
         on:click={() => (showHistory = !showHistory)}
       >
         {showHistory ? 'Hide' : 'Show'} election history ({history.length})
@@ -334,35 +382,37 @@
       </button>
     </div>
 
-    {#if showHistory}
-      {#if history.length === 0}
-        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          No past elections saved.
-        </p>
-      {:else}
-        <div class="mt-3 flex flex-col gap-4">
-          {#each history as entry}
-            <div
-              class="dark:border-darkmixed-300 rounded border border-gray-200 p-3 text-sm"
-            >
-              <p class="font-medium">
-                {new Date(entry.date).toLocaleString()} ·
-                {entry.ballotCount} ballot{entry.ballotCount === 1 ? '' : 's'}
-              </p>
-              <p class="mt-1">
-                {#if entry.winner}
-                  🎉 Winner: <strong>{entry.winner}</strong>
-                {:else}
-                  No winner (tie)
-                {/if}
-              </p>
-              <p class="mt-1 text-gray-600 dark:text-gray-400">
-                Options: {entry.candidates.join(', ')}
-              </p>
-            </div>
-          {/each}
-        </div>
+    <div id="election-history" hidden={!showHistory}>
+      {#if showHistory}
+        {#if history.length === 0}
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            No past elections saved.
+          </p>
+        {:else}
+          <div class="mt-3 flex flex-col gap-4">
+            {#each history as entry}
+              <div
+                class="dark:border-darkmixed-300 rounded border border-gray-200 p-3 text-sm"
+              >
+                <p class="font-medium">
+                  {new Date(entry.date).toLocaleString()} ·
+                  {entry.ballotCount} ballot{entry.ballotCount === 1 ? '' : 's'}
+                </p>
+                <p class="mt-1">
+                  {#if entry.winner}
+                    🎉 Winner: <strong>{entry.winner}</strong>
+                  {:else}
+                    No winner (tie)
+                  {/if}
+                </p>
+                <p class="mt-1 text-gray-600 dark:text-gray-400">
+                  Options: {entry.candidates.join(', ')}
+                </p>
+              </div>
+            {/each}
+          </div>
+        {/if}
       {/if}
-    {/if}
+    </div>
   </section>
 </main>

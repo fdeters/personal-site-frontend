@@ -44,10 +44,88 @@ for (const colorScheme of ['light', 'dark']) {
       await page.getByRole('combobox', { name: '#1' }).selectOption('Pizza');
       await page.getByRole('button', { name: 'Tally votes' }).click();
       await expect(
+        page.getByRole('status').filter({ hasText: 'Winner: Pizza.' })
+      ).toBeAttached();
+      await expect(
         page.getByRole('heading', { name: 'Results' })
       ).toBeVisible();
       await page.getByRole('button', { name: /Show election history/ }).click();
+      await expect(
+        page.getByRole('button', { name: /Hide election history/ })
+      ).toHaveAttribute('aria-expanded', 'true');
       await expect(page.getByText('Options: Pizza, Tacos')).toBeVisible();
+      await expectNoAccessibilityViolations(page);
+    });
+
+    test('tools skip link moves focus to the main content', async ({
+      page,
+    }) => {
+      for (const route of ['/tools', '/tools/ranked-choice']) {
+        await gotoHydratedPage(page, route);
+        const skip = page.getByRole('link', { name: 'Skip to content' });
+        await skip.focus();
+        await page.keyboard.press('Enter');
+        await expect(page.locator('#tool-main')).toBeFocused();
+      }
+    });
+
+    test('keyboard focus remains visible in forced colors', async ({
+      page,
+    }) => {
+      await page.emulateMedia({ forcedColors: 'active' });
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      await page.keyboard.press('Tab');
+      const toggle = page.getByRole('switch', { name: 'Dark mode' });
+      await expect(toggle).toBeFocused();
+      await expect(toggle).toHaveCSS('outline-style', 'solid');
+      await page.keyboard.press('Tab');
+      const skip = page.getByRole('link', { name: 'Skip to content' });
+      await expect(skip).toBeFocused();
+      await expect(skip).toBeInViewport();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('#tool-main')).toBeFocused();
+    });
+
+    test('voting form identifies errors and preserves keyboard focus after removal', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      const input = page.getByLabel('New option name');
+      await page.getByRole('button', { name: 'Add option' }).click();
+      await expect(input).toBeFocused();
+      await expect(input).toHaveAttribute('aria-invalid', 'true');
+      await expect(
+        page.getByRole('status').filter({ hasText: 'Enter an option name.' })
+      ).toBeVisible();
+      await expectNoAccessibilityViolations(page);
+      await input.fill('Pizza');
+      await page.getByRole('button', { name: 'Add option' }).click();
+      await input.fill('Pizza');
+      await page.getByRole('button', { name: 'Add option' }).click();
+      await expect(input).toHaveAttribute('aria-invalid', 'true');
+      await expect(
+        page
+          .getByRole('status')
+          .filter({ hasText: 'That option has already been added.' })
+      ).toBeVisible();
+      await input.fill('Tacos');
+      await page.getByRole('button', { name: 'Add option' }).click();
+      await page.getByRole('button', { name: 'Add ballot' }).click();
+      await expect(page.getByRole('combobox', { name: '#1' })).toBeFocused();
+      await page.getByRole('button', { name: 'Add ballot' }).click();
+      await expect(
+        page.locator('fieldset').last().getByRole('combobox', { name: '#1' })
+      ).toBeFocused();
+      await page.getByRole('button', { name: 'Remove ballot 2' }).click();
+      await expect(
+        page.getByRole('button', { name: 'Add ballot' })
+      ).toBeFocused();
+      await page.getByRole('button', { name: 'Remove ballot 1' }).click();
+      await expect(
+        page.getByRole('button', { name: 'Add ballot' })
+      ).toBeFocused();
+      await page.getByRole('button', { name: 'Remove Pizza' }).click();
+      await expect(input).toBeFocused();
       await expectNoAccessibilityViolations(page);
     });
 
@@ -62,6 +140,9 @@ for (const colorScheme of ['light', 'dark']) {
         await page.getByRole('button', { name: 'Add option' }).click();
       }
       await page.getByRole('button', { name: 'Add ballot' }).click();
+      await page.getByRole('combobox', { name: '#1' }).selectOption('Pizza');
+      await page.getByRole('button', { name: 'Tally votes' }).click();
+      await page.getByRole('button', { name: /Show election history/ }).click();
       expect(
         await page.evaluate(
           () =>

@@ -20,6 +20,9 @@ scrolling is disabled when reduced motion is requested.
 The theme follows the system preference until the user toggles dark mode. A
 manual choice is stored in `localStorage` and applies across the site.
 
+The ranked-choice tool requires nonempty, unique option names. Validation
+messages appear alongside the option field.
+
 ## To Do
 
 - [x] Make it easier to tap on external links on mobile (buttons are very small right now)

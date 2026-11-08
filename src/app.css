@@ -175,6 +175,32 @@
     border-bottom: 2px solid var(--site-text);
   }
 
+  .tool-skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10;
+    transform: translateY(-200%);
+    padding: 12px 16px;
+    background: var(--site-text);
+    color: var(--site-bg);
+  }
+
+  .tool-skip-link:focus {
+    transform: none;
+  }
+
+  .tool-area .tool-skip-link:hover,
+  .tool-area .tool-skip-link:focus-visible {
+    background: var(--site-text);
+    color: var(--site-bg);
+  }
+
+  #tool-main:focus-visible {
+    outline: 3px solid var(--site-accent);
+    outline-offset: 4px;
+  }
+
   .tool-brand {
     font-size: 23px;
     font-weight: 850;
@@ -322,6 +348,14 @@
   }
 
   :root[data-theme='dark'] .voting-tool .danger-text {
+    color: #ffb1a3;
+  }
+
+  .voting-tool .option-error {
+    color: #a4261a;
+  }
+
+  :root[data-theme='dark'] .voting-tool .option-error {
     color: #ffb1a3;
   }
 

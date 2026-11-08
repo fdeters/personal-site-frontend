@@ -2,7 +2,7 @@
   <title>Tools – forrestdeters.com</title>
 </svelte:head>
 
-<main class="tool-directory">
+<main class="tool-directory" id="tool-main" tabindex="-1">
   <p class="tool-kicker">Forrest Deters / Tools</p>
   <h1>Tools</h1>
   <p>Tools I've made for people to use.</p>

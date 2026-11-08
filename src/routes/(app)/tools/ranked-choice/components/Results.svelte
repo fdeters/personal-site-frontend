@@ -28,8 +28,8 @@
               <tr
                 class="dark:border-darkmixed-300 border-b text-left text-gray-600 dark:text-gray-400"
               >
-                <th class="pr-4 pb-1">Option</th>
-                <th class="pb-1">Votes</th>
+                <th scope="col" class="pr-4 pb-1">Option</th>
+                <th scope="col" class="pb-1">Votes</th>
               </tr>
             </thead>
             <tbody>
