@@ -39,7 +39,7 @@
                   result.winner === candidate && i === result.rounds.length - 1}
                 <tr
                   class="dark:border-darkmixed-300 border-b"
-                  class:text-red-700={isEliminated}
+                  class:danger-text={isEliminated}
                   class:font-bold={isWinner}
                 >
                   <td class="py-1 pr-4">

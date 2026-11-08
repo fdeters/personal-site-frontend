@@ -1,6 +1,8 @@
 <script>
   import '../app.css';
   import { onMount } from 'svelte';
+  import IconSun from '~icons/mdi/weather-sunny';
+  import IconMoon from '~icons/mdi/weather-night';
 
   let dark = false;
   let saved = false;
@@ -40,15 +42,19 @@
 </script>
 
 <div class="app-shell">
-  <div class="theme-bar">
+  <nav class="theme-bar" aria-label="Appearance">
     <button
       type="button"
       class="theme-toggle"
-      aria-pressed={dark}
+      role="switch"
+      aria-label="Dark mode"
+      aria-checked={dark}
       on:click={toggleTheme}
     >
-      Dark mode <span aria-hidden="true">{dark ? 'On' : 'Off'}</span>
+      <IconSun aria-hidden="true" class="theme-icon theme-sun" />
+      <span class="theme-toggle-thumb" aria-hidden="true"></span>
+      <IconMoon aria-hidden="true" class="theme-icon theme-moon" />
     </button>
-  </div>
+  </nav>
   <slot />
 </div>

@@ -415,6 +415,33 @@
     color: var(--site-bg);
     background: var(--site-text);
   }
+  :global([data-theme='dark']) .brand {
+    letter-spacing: -0.025em;
+    font-weight: 750;
+  }
+  :global([data-theme='dark']) h1 {
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    font-weight: 750;
+  }
+  :global([data-theme='dark']) h2 {
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+  :global([data-theme='dark']) .intro-text {
+    letter-spacing: 0;
+    line-height: 1.55;
+    font-weight: 450;
+  }
+  :global([data-theme='dark']) .tool-link strong {
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+  :global([data-theme='dark']) .portrait {
+    border-color: var(--tool-frame);
+    box-shadow: 9px 9px 0 var(--tool-shadow);
+  }
   @media (max-width: 700px) {
     .site-header {
       align-items: flex-start;

@@ -327,7 +327,7 @@
       </button>
       <button
         type="button"
-        class="text-sm text-red-700 underline dark:text-red-400"
+        class="danger-text text-sm underline"
         on:click={clearSavedData}
       >
         Clear all saved data

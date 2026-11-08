@@ -71,6 +71,31 @@ for (const colorScheme of ['light', 'dark']) {
       ).toBe(true);
     });
 
+    test('eliminated options and the clear-data control remain accessible', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      const optionInput = page.getByRole('textbox', {
+        name: 'New option name',
+      });
+      for (const name of ['Pizza', 'Tacos', 'Sushi']) {
+        await optionInput.fill(name);
+        await page.getByRole('button', { name: 'Add option' }).click();
+      }
+      for (const name of ['Pizza', 'Pizza', 'Tacos', 'Sushi']) {
+        await page.getByRole('button', { name: 'Add ballot' }).click();
+        await page
+          .locator('fieldset')
+          .last()
+          .getByRole('combobox', { name: '#1' })
+          .selectOption(name);
+      }
+      await page.getByRole('button', { name: 'Tally votes' }).click();
+      await expect(page.getByText('(eliminated)').first()).toBeVisible();
+      await page.getByRole('button', { name: 'Clear all saved data' }).hover();
+      await expectNoAccessibilityViolations(page);
+    });
+
     test('refined preview navigation and tool links work', async ({ page }) => {
       await gotoHydratedPage(page, '/design-refined');
       await page
@@ -148,14 +173,16 @@ for (const colorScheme of ['light', 'dark']) {
       page,
     }) => {
       await gotoHydratedPage(page, '/');
-      const toggle = page.getByRole('button', { name: /Dark mode/ });
+      const toggle = page.getByRole('switch', { name: 'Dark mode' });
       const initial = colorScheme === 'dark' ? 'dark' : 'light';
       const next = initial === 'dark' ? 'light' : 'dark';
       await expect(page.locator('html')).toHaveAttribute('data-theme', initial);
-      await toggle.click();
+      await toggle.focus();
+      await expect(toggle).toHaveCSS('outline-style', 'solid');
+      await page.keyboard.press('Space');
       await expect(page.locator('html')).toHaveAttribute('data-theme', next);
       await expect(toggle).toHaveAttribute(
-        'aria-pressed',
+        'aria-checked',
         String(next === 'dark')
       );
       await page.getByRole('link', { name: 'See all tools ↗' }).click();
