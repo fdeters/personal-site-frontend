@@ -11,6 +11,11 @@ are standalone concepts, not changes to the existing homepage or tools; their
 tool links lead to the current working tools. The refined direction, informed
 by feedback on the first two concepts, is available at `/design-refined`.
 
+The refined preview uses `src/lib/styles/in-page-navigation.css` for native
+anchor scrolling and target highlighting. Add `jump-navigation` to a page
+wrapper and `jump-target` to focusable anchor targets to reuse it; smooth
+scrolling is disabled when reduced motion is requested.
+
 ## To Do
 
 - [x] Make it easier to tap on external links on mobile (buttons are very small right now)

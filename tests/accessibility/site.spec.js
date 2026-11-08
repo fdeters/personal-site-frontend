@@ -68,6 +68,59 @@ for (const colorScheme of ['light', 'dark']) {
       ).toBeVisible();
     });
 
+    test('refined preview jump links highlight their targets and support keyboard navigation', async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await gotoHydratedPage(page, '/design-refined');
+      await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
+
+      await page.keyboard.press('Tab');
+      await page.keyboard.press('Tab');
+      await expect(
+        page.getByRole('link', { name: 'Skip to content' })
+      ).toBeFocused();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('#main-content')).toBeFocused();
+
+      const musicLink = page.getByRole('link', { name: 'Music', exact: true });
+      await musicLink.focus();
+      await page.keyboard.press('Enter');
+      const music = page.locator('#music');
+      await expect(music).toBeFocused();
+      await expect(page).toHaveURL(/#music$/);
+      await expect(music).toHaveCSS('outline-style', 'solid');
+      await expect(music).toHaveCSS('background-color', 'rgb(242, 230, 212)');
+      await expectNoAccessibilityViolations(page);
+
+      await page.keyboard.press('Tab');
+      await expect(
+        page.getByRole('link', { name: /Browse my sheet music/ })
+      ).toBeFocused();
+      await page.goBack();
+      await expect(page).toHaveURL(/#main-content$/);
+      await page.goForward();
+      await expect(page).toHaveURL(/#music$/);
+      await expect(music).toHaveCSS('background-color', 'rgb(242, 230, 212)');
+
+      await page.goto('/design-refined#tools');
+      await expect(page.locator('#tools')).toHaveCSS(
+        'background-color',
+        'rgb(242, 230, 212)'
+      );
+      await expect(
+        page.getByRole('link', { name: 'Find me on Instagram ↗' })
+      ).toHaveAttribute('href', 'https://www.instagram.com/doctypeforrest');
+    });
+
+    test('refined preview uses smooth scrolling when motion is allowed', async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: 'no-preference' });
+      await gotoHydratedPage(page, '/design-refined');
+      await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'smooth');
+    });
+
     test('each design preview is accessible and links to the voting tool', async ({
       page,
     }) => {

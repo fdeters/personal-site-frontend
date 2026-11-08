@@ -1,6 +1,7 @@
 <script>
   import portrait from '#lib/assets/images/tokyo-drama.jpg';
   import topics from '#lib/data/topics.json';
+  import '#lib/styles/in-page-navigation.css';
 
   const { webdev, music } = topics.topics;
 </script>
@@ -10,7 +11,7 @@
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="preview">
+<div class="preview jump-navigation">
   <aside class="preview-notice" aria-label="Preview information">
     <span>Refined design preview</span>
     <a href="/design-previews">Compare the original directions ↗</a>
@@ -18,6 +19,7 @@
 
   <div class="site">
     <header class="site-header">
+      <a class="skip-link" href="#main-content">Skip to content</a>
       <a class="brand" href="/">Forrest Deters<span>.</span></a>
       <nav aria-label="Site sections">
         <a href="#web-development">Web development</a>
@@ -26,14 +28,18 @@
       </nav>
     </header>
 
-    <main>
-      <section class="intro" aria-labelledby="intro-heading">
+    <main class="jump-target" id="main-content" tabindex="-1">
+      <section
+        class="intro jump-target"
+        id="about"
+        aria-labelledby="intro-heading"
+        tabindex="-1"
+      >
         <div class="intro-copy">
-          <p class="location">Portland, Oregon</p>
           <h1 id="intro-heading">Hi, I'm Forrest.</h1>
           <p class="intro-text">
-            I'm a web developer and vocal musician. I like pop funk, soccer, and
-            games.
+            I'm a web developer and vocal musician in Portland, Oregon. I like
+            pop funk, soccer, and games.
           </p>
           <p class="intro-detail">
             Here you'll find my work, music, and tools for anyone to use.
@@ -45,10 +51,14 @@
       </section>
 
       <div class="sections">
-        <section class="content-section" id="web-development">
+        <section
+          class="content-section jump-target"
+          id="web-development"
+          aria-labelledby="web-heading"
+          tabindex="-1"
+        >
           <div class="section-title">
-            <span class="section-number">01</span>
-            <h2>Web development</h2>
+            <h2 id="web-heading">Web development</h2>
           </div>
           <div class="section-body">
             <p>
@@ -67,14 +77,20 @@
           </div>
         </section>
 
-        <section class="content-section" id="music">
+        <section
+          class="content-section jump-target"
+          id="music"
+          aria-labelledby="music-heading"
+          tabindex="-1"
+        >
           <div class="section-title">
-            <span class="section-number">02</span>
-            <h2>Music</h2>
+            <h2 id="music-heading">Music</h2>
           </div>
           <div class="section-body">
             <p>
               I perform and arrange vocal music for fun and semi-professionally.
+              I'm a founder of Pocket, a Portland-based six-piece a cappella
+              group.
             </p>
             <div class="links">
               <a href={music.links.sheetmusicplus.url}
@@ -90,10 +106,14 @@
           </div>
         </section>
 
-        <section class="content-section tools-section" id="tools">
+        <section
+          class="content-section jump-target"
+          id="tools"
+          aria-labelledby="tools-heading"
+          tabindex="-1"
+        >
           <div class="section-title">
-            <span class="section-number">03</span>
-            <h2>Tools</h2>
+            <h2 id="tools-heading">Tools</h2>
           </div>
           <div class="section-body">
             <p>Tools I've made for people to use.</p>
@@ -112,13 +132,20 @@
 
     <footer>
       <span>Forrest Deters</span>
-      <span>Portland, Oregon</span>
-      <a href="#intro-heading">Back to top ↑</a>
+      <a href="https://www.instagram.com/doctypeforrest"
+        >Find me on Instagram ↗</a
+      >
+      <a href="#about">Back to top ↑</a>
     </footer>
   </div>
 </div>
 
 <style>
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html:has(.preview)) {
+      scroll-behavior: smooth;
+    }
+  }
   .preview {
     margin: -1rem;
     color: #242323;
@@ -132,8 +159,21 @@
     text-decoration: underline;
   }
   .preview a:focus-visible {
-    outline: 3px solid #ae3928;
+    outline: 3px solid currentColor;
     outline-offset: 4px;
+  }
+  .skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+    transform: translateY(-200%);
+    padding: 12px 16px;
+    background: #242323;
+    color: #fff;
+  }
+  .skip-link:focus {
+    transform: none;
   }
   .preview-notice {
     display: flex;
@@ -148,6 +188,13 @@
   }
   .preview-notice a {
     color: #f5d399;
+  }
+  .preview-notice a,
+  nav a,
+  .all-tools,
+  footer a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
   .site {
     max-width: 1280px;
@@ -178,6 +225,17 @@
     font-size: 13px;
     font-weight: 700;
   }
+  nav a {
+    padding: 10px 0;
+  }
+  nav a:hover,
+  nav a:focus-visible,
+  .all-tools:hover,
+  .all-tools:focus-visible,
+  footer a:hover,
+  footer a:focus-visible {
+    color: #913624;
+  }
   .intro {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(230px, 360px);
@@ -185,13 +243,8 @@
     align-items: center;
     padding: 80px 0 90px;
   }
-  .location {
-    color: #99402e;
-    font-size: 13px;
-    font-weight: 750;
-  }
   h1 {
-    margin: 19px 0 25px;
+    margin: 0 0 25px;
     font-size: clamp(52px, 7.5vw, 100px);
     line-height: 0.98;
     font-weight: 850;
@@ -233,23 +286,23 @@
     gap: 6%;
     padding: 46px 0 52px;
     border-bottom: 1px solid #bdb8ae;
-    scroll-margin-top: 24px;
   }
   .section-title {
-    display: flex;
-    align-items: baseline;
-    gap: 20px;
-  }
-  .section-number {
-    color: #a63e2c;
-    font-size: 12px;
-    font-weight: 800;
+    align-self: start;
   }
   h2 {
     font-size: clamp(30px, 3.2vw, 43px);
     line-height: 1.1;
     font-weight: 800;
     letter-spacing: -0.05em;
+  }
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 52px;
+    height: 4px;
+    margin-top: 14px;
+    background: #a63e2c;
   }
   .section-body > p {
     max-width: 570px;
@@ -281,6 +334,11 @@
   .links a span {
     color: #a63e2c;
   }
+  .links a:hover,
+  .links a:focus-visible {
+    background: #f2e6d4;
+    border-color: #242323;
+  }
   .tool-link {
     display: flex;
     justify-content: space-between;
@@ -294,6 +352,10 @@
   .tool-link strong,
   .tool-link small {
     display: block;
+  }
+  .tool-link:hover,
+  .tool-link:focus-visible {
+    background: #e7bd69;
   }
   .tool-link strong {
     font-size: 18px;
@@ -353,9 +415,6 @@
       grid-template-columns: 1fr;
       gap: 22px;
       padding: 35px 0 40px;
-    }
-    .section-title {
-      gap: 15px;
     }
   }
 </style>
