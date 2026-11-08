@@ -45,5 +45,25 @@ for (const colorScheme of ['light', 'dark']) {
       await expect(page.getByText('Options: Pizza, Tacos')).toBeVisible();
       await expectNoAccessibilityViolations(page);
     });
+
+    test('each design preview is accessible and links to the voting tool', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/design-previews');
+      for (const name of [
+        'The Personal Index',
+        'The Creative Studio',
+        'The Field Notes',
+        'The Digital Commons',
+      ]) {
+        const button = page.getByRole('button', { name: new RegExp(name) });
+        await button.click();
+        await expect(button).toHaveAttribute('aria-pressed', 'true');
+        await expect(
+          page.locator('.concept a[href="/tools/ranked-choice"]')
+        ).toBeVisible();
+        await expectNoAccessibilityViolations(page);
+      }
+    });
   });
 }

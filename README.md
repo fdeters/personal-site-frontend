@@ -4,6 +4,12 @@ My personal site frontend. Built with SvelteKit + Vite.
 Topic links are stored in `src/lib/data/topics.json`. Tailwind CSS for styling,
 and Prettier for code formatting.
 
+## Design exploration
+
+Visit `/design-previews` to compare four proposed homepage directions. These
+are standalone concepts, not changes to the existing homepage or tools; their
+tool links lead to the current working tools.
+
 ## To Do
 
 - [x] Make it easier to tap on external links on mobile (buttons are very small right now)
