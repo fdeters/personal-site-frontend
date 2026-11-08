@@ -2,7 +2,15 @@
   <title>Tools – forrestdeters.com</title>
 </svelte:head>
 
-<main class="flex flex-col items-center gap-4">
-  <h1 class="text-2xl font-bold">Tools</h1>
-  <a href="/tools/ranked-choice"> Ranked choice </a>
+<main class="tool-directory">
+  <p class="tool-kicker">Forrest Deters / Tools</p>
+  <h1>Tools</h1>
+  <p>Tools I've made for people to use.</p>
+  <a class="tool-directory-card" href="/tools/ranked-choice">
+    <span>
+      <strong>Ranked-choice voting</strong>
+      <small>Rank options and find a winner together.</small>
+    </span>
+    <span aria-hidden="true">↗</span>
+  </a>
 </main>

@@ -7,14 +7,18 @@ and Prettier for code formatting.
 ## Design exploration
 
 Visit `/design-previews` to compare four proposed homepage directions. These
-are standalone concepts, not changes to the existing homepage or tools; their
-tool links lead to the current working tools. The refined direction, informed
-by feedback on the first two concepts, is available at `/design-refined`.
+are standalone concepts; their tool links lead to the current working tools.
+The refined direction is available at `/design-refined` and is also used on
+the homepage.
 
-The refined preview uses `src/lib/styles/in-page-navigation.css` for native
-anchor scrolling and target highlighting. Add `jump-navigation` to a page
+The homepage uses `src/lib/styles/in-page-navigation.css` and the
+`inPageNavigation` Svelte action for native anchor scrolling and temporary
+target highlighting. Apply the action and `jump-navigation` class to a page
 wrapper and `jump-target` to focusable anchor targets to reuse it; smooth
 scrolling is disabled when reduced motion is requested.
+
+The theme follows the system preference until the user toggles dark mode. A
+manual choice is stored in `localStorage` and applies across the site.
 
 ## To Do
 

@@ -367,7 +367,7 @@
 
 <style>
   .comparison {
-    margin: -1rem;
+    margin: 0;
     background: #e8e8e5;
     color: #222;
     font-family: system-ui, sans-serif;

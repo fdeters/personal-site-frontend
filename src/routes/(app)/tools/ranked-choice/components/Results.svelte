@@ -8,9 +8,7 @@
     <h2 class="text-xl font-semibold">Results</h2>
 
     {#if result.winner}
-      <p
-        class="bg-primary-100 dark:bg-primary-600 mt-2 rounded px-4 py-2 text-lg font-bold"
-      >
+      <p class="winner mt-2 rounded px-4 py-2 text-lg font-bold">
         🎉 Winner: {result.winner.name}
       </p>
     {:else}

@@ -14,13 +14,13 @@
   scroll-margin-top: 24px;
 }
 
-.jump-target:target {
-  background: var(--jump-target-background, #f2e6d4);
-  outline: 3px solid var(--jump-target-accent, #a63e2c);
+.jump-target.jump-highlight {
+  background: var(--jump-target-background);
+  outline: 3px solid var(--jump-target-accent);
   outline-offset: 3px;
 }
 
 .jump-target:focus-visible {
-  outline: 3px solid var(--jump-target-focus, #242323);
+  outline: 3px solid var(--jump-target-focus);
   outline-offset: 7px;
 }
