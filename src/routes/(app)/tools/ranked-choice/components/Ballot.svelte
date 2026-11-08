@@ -44,7 +44,7 @@
     {#each { length: visibleRanks } as _, i (i)}
       {@const ranked = ballot.ranking[i] ?? null}
       <label class="flex items-center gap-2">
-        <span class="w-16 text-sm text-gray-500 dark:text-gray-400"
+        <span class="w-16 text-sm text-gray-600 dark:text-gray-400"
           >#{i + 1}</span
         >
         <select

@@ -6,7 +6,7 @@
 
 <a
   class="dark:bg-primary-400 dark:text-dark-600 min-h-[2.3rem] rounded-md bg-[#f6efe6]
-        px-2 text-yellow-700"
+        px-2 text-yellow-800"
   {href}
   target="_blank"
 >

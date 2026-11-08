@@ -28,4 +28,6 @@ jobs:
       - run: pnpm test
       - run: pnpm format:check
       - run: pnpm audit --audit-level=high
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:a11y
       - run: pnpm build
