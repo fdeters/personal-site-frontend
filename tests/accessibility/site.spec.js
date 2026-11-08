@@ -11,6 +11,23 @@ async function gotoHydratedPage(page, route) {
   await page.locator('#svelte-announcer').waitFor({ state: 'attached' });
 }
 
+function contrastRatio(foreground, background) {
+  const luminance = (color) => {
+    const channels = color.match(/\d+/g).slice(0, 3).map(Number);
+    const [red, green, blue] = channels.map((channel) => {
+      const value = channel / 255;
+      return value <= 0.04045
+        ? value / 12.92
+        : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+  };
+  const [lighter, darker] = [luminance(foreground), luminance(background)].sort(
+    (a, b) => b - a
+  );
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 for (const colorScheme of ['light', 'dark']) {
   test.describe(`${colorScheme} mode`, () => {
     test.use({ colorScheme });
@@ -193,6 +210,59 @@ for (const colorScheme of ['light', 'dark']) {
         'font-size',
         '16px'
       );
+    });
+
+    test('standard site copy uses a 16px base size', async ({ page }) => {
+      await gotoHydratedPage(page, '/');
+      await expect(page.locator('.site-header nav a').first()).toHaveCSS(
+        'font-size',
+        '16px'
+      );
+      await expect(page.locator('.links a').first()).toHaveCSS(
+        'font-size',
+        '16px'
+      );
+      await expect(page.locator('.tool-link small')).toHaveCSS(
+        'font-size',
+        '16px'
+      );
+      await expect(page.locator('footer')).toHaveCSS('font-size', '16px');
+
+      await gotoHydratedPage(page, '/tools');
+      await expect(page.locator('.tool-header nav a').first()).toHaveCSS(
+        'font-size',
+        '16px'
+      );
+      await expect(page.locator('.tool-directory-card small')).toHaveCSS(
+        'font-size',
+        '16px'
+      );
+
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      await expect(page.locator('.voting-tool > p').nth(1)).toHaveCSS(
+        'font-size',
+        '16px'
+      );
+    });
+
+    test('ranked-choice action text maintains improved contrast', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      const optionInput = page.getByRole('textbox', {
+        name: 'New option name',
+      });
+      for (const name of ['Pizza', 'Tacos']) {
+        await optionInput.fill(name);
+        await page.getByRole('button', { name: 'Add option' }).click();
+      }
+      await page.getByRole('button', { name: 'Add ballot' }).click();
+      const action = page.getByRole('button', { name: 'Tally votes' });
+      const [foreground, background] = await action.evaluate((button) => {
+        const style = getComputedStyle(button);
+        return [style.color, style.backgroundColor];
+      });
+      expect(contrastRatio(foreground, background)).toBeGreaterThanOrEqual(5.4);
     });
 
     test('eliminated options and the clear-data control remain accessible', async ({

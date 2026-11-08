@@ -219,7 +219,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 12px 30px;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
   }
   nav a {
@@ -337,7 +337,7 @@
     padding: 11px 13px;
     border: 1px solid var(--site-border);
     background: var(--site-surface);
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
   }
   .links a span {
@@ -385,7 +385,7 @@
   .tool-link small {
     margin-top: 5px;
     color: var(--tool-card-text);
-    font-size: 13px;
+    font-size: 16px;
   }
   .tool-arrow {
     font-size: 25px;
@@ -393,7 +393,7 @@
   .all-tools {
     display: inline-block;
     margin-top: 19px;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 750;
   }
   footer {
@@ -403,7 +403,7 @@
     justify-content: space-between;
     padding: 27px 0 35px;
     color: var(--site-muted);
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 650;
   }
   footer a {
