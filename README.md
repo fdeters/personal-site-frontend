@@ -21,6 +21,9 @@ To install dependencies and create a production version of the app:
 
 ```bash
 pnpm install --frozen-lockfile
+pnpm check
+pnpm test
+pnpm format:check
 pnpm build
 ```
 
@@ -39,3 +42,6 @@ install Chromium once with `pnpm exec playwright install chromium`, then run
 `pnpm test:a11y`. The accessibility suite starts its own local server and scans
 each route and the ranked-choice voting flow in both light and dark modes.
 These automated checks do not replace manual accessibility testing.
+
+Copilot cloud-agent sessions install the same Node.js and pnpm versions using
+`.github/workflows/copilot-setup-steps.yml`.

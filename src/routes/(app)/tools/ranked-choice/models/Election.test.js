@@ -4,7 +4,13 @@ import Ballot from './Ballot.js';
 import Candidate from './Candidate.js';
 import Election from './Election.js';
 
+/** @param {string[]} names */
 const make = (names) => names.map((n) => new Candidate(n));
+
+/**
+ * @param {Candidate[]} cands
+ * @param {string[]} order
+ */
 const vote = (cands, order) => {
   const b = new Ballot(cands);
   order.forEach((n, i) => b.rankCandidate(n, i + 1));

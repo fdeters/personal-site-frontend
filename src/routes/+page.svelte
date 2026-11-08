@@ -7,19 +7,11 @@
   /** @type {import('./$types').PageData} */
   export let data;
 
+  /**
+   * @param {{ id: string, clicks: number, text: string, url: string }[]} links
+   */
   function sortLinksByClicks(links) {
-    return [...links].sort((link1, link2) => {
-      if (link1.clicks === undefined) link1.clicks = 0;
-      if (link2.clicks === undefined) link2.clicks = 0;
-
-      if (link1.clicks < link2.clicks) {
-        return 1;
-      }
-      if (link1.clicks > link2.clicks) {
-        return -1;
-      }
-      return 0;
-    });
+    return [...links].sort((link1, link2) => link2.clicks - link1.clicks);
   }
 </script>
 
@@ -28,18 +20,18 @@
 </svelte:head>
 
 <header class="mx-auto mb-4 max-w-md text-center">
-  <div class="mb-4 mt-2 flex flex-col items-center gap-4">
+  <div class="mt-2 mb-4 flex flex-col items-center gap-4">
     <AvatarImage
       src={HeadshotImage}
       alt="A headshot of Forrest standing in front of a temple in Tokyo. Dramatic lighting bathes one side of his face in even white light. He's wearing a plain black t-shirt. It's a little self-serious."
     />
     <div
-      class="mt-2 flex flex-col items-center gap-2 rounded-md bg-white px-4 pb-4
-        pt-3 dark:bg-dark-500"
+      class="dark:bg-dark-500 mt-2 flex flex-col items-center gap-2 rounded-md bg-white px-4
+        pt-3 pb-4"
     >
       <h1
-        class="w-fit border-b-2 border-gray-300 px-1 text-2xl font-medium
-          dark:border-darkmixed-100"
+        class="dark:border-darkmixed-100 w-fit border-b-2 border-gray-300 px-1 text-2xl
+          font-medium"
       >
         Forrest Deters
       </h1>
@@ -77,7 +69,7 @@
   <nav>
     <a
       href="/tools"
-      class="px-2 py-1 text-gray-600 underline hocus:text-blue-600"
+      class="hocus:text-blue-600 px-2 py-1 text-gray-600 underline"
     >
       Tools
     </a>

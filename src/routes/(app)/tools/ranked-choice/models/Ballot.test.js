@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import Ballot from './Ballot.js';
 import Candidate from './Candidate.js';
 
+/** @returns {{ a: Candidate, b: Candidate, c: Candidate, ballot: Ballot }} */
 const setup = () => {
   const [a, b, c] = ['A', 'B', 'C'].map((n) => new Candidate(n));
   return { a, b, c, ballot: new Ballot([a, b, c]) };

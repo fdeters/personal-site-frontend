@@ -2,3 +2,8 @@ allowBuilds:
   '@sveltejs/kit': true
   esbuild: true
   protobufjs: true
+
+overrides:
+  glob: 14.0.4
+  minimatch: 11.0.5
+  rollup: 4.68.0

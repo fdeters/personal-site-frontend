@@ -1,13 +1,15 @@
 <script>
   import ExternalPlatformLink from './ExternalPlatformLink.svelte';
 
+  /** @type {string} */
   export let title;
-  export let links = []; // { id, url, text, clicks }
+  /** @type {{ id: string, url: string, text: string, clicks: number }[]} */
+  export let links = [];
 </script>
 
 <section
-  class="flex flex-col justify-between gap-4 rounded-md bg-white px-4 py-3
-        dark:bg-dark-500"
+  class="dark:bg-dark-500 flex flex-col justify-between gap-4 rounded-md bg-white px-4
+        py-3"
   aria-label={title}
 >
   <div>

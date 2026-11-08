@@ -1,6 +1,35 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-primary-100: #dbb792;
+  --color-primary-200: #d1a578;
+  --color-primary-300: #c6945e;
+  --color-primary-400: #ba8344;
+  --color-primary-500: #ae722a;
+  --color-primary-600: #a16207;
+
+  --color-dark-100: #8b8b8b;
+  --color-dark-200: #717171;
+  --color-dark-300: #575757;
+  --color-dark-400: #3f3f3f;
+  --color-dark-500: #282828;
+  --color-dark-600: #121212;
+
+  --color-darkmixed-100: #93908c;
+  --color-darkmixed-200: #7a7672;
+  --color-darkmixed-300: #625d58;
+  --color-darkmixed-400: #4b4540;
+  --color-darkmixed-500: #352f29;
+  --color-darkmixed-600: #201a14;
+}
+
+@custom-variant hocus (&:hover, &:focus);
+
+@utility page-dice-background {
+  background-image:
+    url('./lib/assets/images/dice-bg-1.png'),
+    url('./lib/assets/images/dice-bg-2.png');
+}
 
 @layer base {
   a {

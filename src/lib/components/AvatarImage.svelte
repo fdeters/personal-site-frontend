@@ -15,7 +15,7 @@
   <a
     href="https://www.instagram.com/doctypeforrest"
     target="_blank"
-    class="absolute -bottom-2 -right-6 block w-8 overflow-hidden rounded-full"
+    class="absolute -right-6 -bottom-2 block w-8 overflow-hidden rounded-full"
   >
     <img
       src={InstagramLogo}

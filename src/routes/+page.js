@@ -1,4 +1,4 @@
-import topicsExport from '$lib/data/topics.json';
+import topicsExport from '#lib/data/topics.json';
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
