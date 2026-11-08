@@ -16,12 +16,10 @@
   "type": "module",
   "devDependencies": {
     "@iconify-json/mdi": "^1.2.0",
-    "@sveltejs/adapter-static": "^3.0.11",
     "@sveltejs/adapter-vercel": "^6.3.5",
     "@sveltejs/kit": "^2.70.4",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "autoprefixer": "^10.4.20",
-    "firebase": "^10.13.1",
     "postcss": "^8.4.45",
     "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.6",

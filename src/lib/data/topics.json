@@ -1,0 +1,37 @@
+{
+  "topics": {
+    "music": {
+      "links": {
+        "pocket_insta": {
+          "clicks": 2,
+          "text": "Pocket's Instagram",
+          "url": "https://www.instagram.com/pocketacappella/"
+        },
+        "pocket_youtube": {
+          "clicks": 2,
+          "text": "Pocket's Youtube channel",
+          "url": "https://www.youtube.com/@PocketACappella"
+        },
+        "sheetmusicplus": {
+          "clicks": 4,
+          "text": "Sheet music store",
+          "url": "https://www.sheetmusicplus.com/en/explore?q=forrest%20deters"
+        }
+      }
+    },
+    "webdev": {
+      "links": {
+        "github": {
+          "clicks": 3,
+          "text": "GitHub",
+          "url": "https://github.com/fdeters"
+        },
+        "metromap": {
+          "clicks": 0,
+          "text": "MetroMap",
+          "url": "https://gis.oregonmetro.gov/metromap/"
+        }
+      }
+    }
+  }
+}
