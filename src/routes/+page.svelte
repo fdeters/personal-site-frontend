@@ -56,7 +56,6 @@
 >
   <TopicCard
     title="Web Development"
-    topicId="webdev"
     links={sortLinksByClicks(data.webdev.links)}
   >
     <p>
@@ -68,7 +67,6 @@
   </TopicCard>
   <TopicCard
     title="Music"
-    topicId="music"
     links={sortLinksByClicks(data.music.links)}
   >
     <p>
