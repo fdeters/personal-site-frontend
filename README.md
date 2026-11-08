@@ -16,7 +16,7 @@ Name new feature branches like this: `feature/<name>`. For example, `feature/dar
 
 ## Building
 
-Use Node.js 26 and pnpm 10.34.9 (the version specified by `packageManager`).
+Use Node.js 26 and pnpm 12.18.0 (the version specified by `packageManager`).
 To install dependencies and create a production version of the app:
 
 ```bash
@@ -25,6 +25,14 @@ pnpm build
 ```
 
 You can preview the production build with `pnpm preview`.
+
+## Testing
+
+Run the unit tests with `pnpm test`. For browser-based accessibility checks,
+install Chromium once with `pnpm exec playwright install chromium`, then run
+`pnpm test:a11y`. The accessibility suite starts its own local server and scans
+each route and the ranked-choice voting flow in both light and dark modes.
+These automated checks do not replace manual accessibility testing.
 
 The default build uses `@sveltejs/adapter-vercel`. Vercel selects Node.js 26
 from the `engines.node` setting in `package.json` and uses the pinned pnpm
