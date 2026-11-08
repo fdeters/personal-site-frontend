@@ -227,7 +227,7 @@ for (const colorScheme of ['light', 'dark']) {
       await expect(page.locator('#tool-main')).toBeFocused();
     });
 
-    test('voting form identifies errors and preserves keyboard focus after removal', async ({
+    test('voting form identifies errors and manages focus after removal', async ({
       page,
     }) => {
       await gotoHydratedPage(page, '/tools/ranked-choice');
@@ -266,7 +266,14 @@ for (const colorScheme of ['light', 'dark']) {
         page.getByRole('button', { name: 'Add ballot' })
       ).toBeFocused();
       await page.getByRole('button', { name: 'Remove Pizza' }).click();
-      await expect(input).toBeFocused();
+      await expect(
+        page.getByRole('button', { name: 'Remove Tacos' })
+      ).toBeFocused();
+      await page.getByRole('button', { name: 'Remove Tacos' }).click();
+      await expect(
+        page.getByRole('heading', { name: 'Options' })
+      ).toBeFocused();
+      await expect(input).not.toBeFocused();
       await expectNoAccessibilityViolations(page);
     });
 
@@ -284,6 +291,21 @@ for (const colorScheme of ['light', 'dark']) {
       await page.getByRole('combobox', { name: '#1' }).selectOption('Pizza');
       await page.getByRole('button', { name: 'Tally votes' }).click();
       await page.getByRole('button', { name: /Show election history/ }).click();
+      const toolFrame = await page.locator('.voting-tool').boundingBox();
+      expect(toolFrame.x).toBeGreaterThan(16);
+      expect(toolFrame.width).toBeGreaterThan(270);
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'padding-left',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'border-left-width',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'box-shadow',
+        'none'
+      );
       expect(
         await page.evaluate(
           () =>
