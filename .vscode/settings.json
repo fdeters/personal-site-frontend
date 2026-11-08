@@ -4,6 +4,6 @@
   "explorer.sortOrder": "filesFirst",
   // "explorer.compactFolders": false,
   "[svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode",
-  },
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  }
 }

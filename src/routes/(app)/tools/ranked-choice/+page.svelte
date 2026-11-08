@@ -99,9 +99,15 @@
 
   // ── Reactivity ───────────────────────────────────────────────────────────
   let mounted = false;
-  onMount(() => { mounted = true; });
+  onMount(() => {
+    mounted = true;
+  });
 
-  $: if (mounted) { candidates; ballots; saveState(); }
+  $: if (mounted) {
+    candidates;
+    ballots;
+    saveState();
+  }
 
   // ── Option management ────────────────────────────────────────────────────
   const addOption = () => {
@@ -109,13 +115,19 @@
     if (!name) return;
     const candidate = new Candidate(name);
     candidates = [...candidates, candidate];
-    ballots = ballots.map((b) => { b.addCandidate(candidate); return b; });
+    ballots = ballots.map((b) => {
+      b.addCandidate(candidate);
+      return b;
+    });
     newOptionName = '';
   };
 
   const removeOption = (candidate) => {
     candidates = candidates.filter((c) => c !== candidate);
-    ballots = ballots.map((b) => { b.removeCandidate(candidate); return b; });
+    ballots = ballots.map((b) => {
+      b.removeCandidate(candidate);
+      return b;
+    });
     result = null;
   };
 
@@ -152,15 +164,17 @@
 <main class="mx-auto max-w-xl">
   <h1 class="text-2xl font-bold">Ranked Choice Voting</h1>
   <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-    Can't decide where to eat or what to do? Add your options, have everyone fill
-    out a ballot, and let ranked-choice voting pick a winner.
+    Can't decide where to eat or what to do? Add your options, have everyone
+    fill out a ballot, and let ranked-choice voting pick a winner.
   </p>
 
   <!-- ── Options ─────────────────────────────────────────────────────────── -->
   <section class="mt-6">
     <h2 class="text-lg font-semibold">Options</h2>
     {#if candidates.length === 0}
-      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">No options yet. Add some below.</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        No options yet. Add some below.
+      </p>
     {:else}
       <ul class="mt-2 flex flex-col gap-1">
         {#each candidates as candidate (candidate.name)}
@@ -206,9 +220,13 @@
     <h2 class="text-lg font-semibold">Ballots</h2>
 
     {#if candidates.length < 2}
-      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Add at least 2 options to start voting.</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        Add at least 2 options to start voting.
+      </p>
     {:else if ballots.length === 0}
-      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Add a ballot to start voting.</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        Add a ballot to start voting.
+      </p>
     {:else}
       <div class="mt-2 flex flex-col gap-3">
         {#each ballots as ballot, i (i)}
@@ -250,7 +268,7 @@
     <button
       type="button"
       disabled={!canTally}
-      class="rounded bg-primary-600 px-4 py-2 font-medium text-white hocus:bg-yellow-800 disabled:cursor-not-allowed disabled:opacity-40"
+      class="rounded bg-primary-600 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 hocus:bg-yellow-800"
       on:click={tally}
     >
       Tally votes
@@ -288,11 +306,15 @@
 
     {#if showHistory}
       {#if history.length === 0}
-        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">No past elections saved.</p>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          No past elections saved.
+        </p>
       {:else}
         <div class="mt-3 flex flex-col gap-4">
           {#each history as entry}
-            <div class="rounded border border-gray-200 p-3 text-sm dark:border-darkmixed-300">
+            <div
+              class="rounded border border-gray-200 p-3 text-sm dark:border-darkmixed-300"
+            >
               <p class="font-medium">
                 {new Date(entry.date).toLocaleString()} ·
                 {entry.ballotCount} ballot{entry.ballotCount === 1 ? '' : 's'}
@@ -304,7 +326,9 @@
                   No winner (tie)
                 {/if}
               </p>
-              <p class="mt-1 text-gray-600 dark:text-gray-400">Options: {entry.candidates.join(', ')}</p>
+              <p class="mt-1 text-gray-600 dark:text-gray-400">
+                Options: {entry.candidates.join(', ')}
+              </p>
             </div>
           {/each}
         </div>

@@ -26,15 +26,16 @@ pnpm build
 
 You can preview the production build with `pnpm preview`.
 
-## Testing
-
-Run the unit tests with `pnpm test`. For browser-based accessibility checks,
-install Chromium once with `pnpm exec playwright install chromium`, then run
-`pnpm test:a11y`. The accessibility suite starts its own local server and scans
-each route and the ranked-choice voting flow in both light and dark modes.
-These automated checks do not replace manual accessibility testing.
-
 The default build uses `@sveltejs/adapter-vercel`. Vercel selects Node.js 26
 from the `engines.node` setting in `package.json` and uses the pinned pnpm
 version from the install command in `vercel.json` (keep it in sync with
 `packageManager`).
+
+## Testing
+
+Run the formatting and unit test checks with `pnpm lint` and `pnpm test`.
+For browser-based accessibility checks,
+install Chromium once with `pnpm exec playwright install chromium`, then run
+`pnpm test:a11y`. The accessibility suite starts its own local server and scans
+each route and the ranked-choice voting flow in both light and dark modes.
+These automated checks do not replace manual accessibility testing.

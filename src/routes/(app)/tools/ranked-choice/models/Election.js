@@ -44,7 +44,9 @@ export default class Election {
       const minVotes = Math.min(...remaining.map((c) => counts.get(c) ?? 0));
 
       // Eliminate all candidates tied at the minimum (batch elimination).
-      const eliminated = remaining.filter((c) => (counts.get(c) ?? 0) === minVotes);
+      const eliminated = remaining.filter(
+        (c) => (counts.get(c) ?? 0) === minVotes
+      );
 
       rounds.push({ counts, eliminated });
       remaining = remaining.filter((c) => !eliminated.includes(c));
