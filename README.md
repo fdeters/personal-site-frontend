@@ -8,7 +8,8 @@ and Prettier for code formatting.
 
 Visit `/design-previews` to compare four proposed homepage directions. These
 are standalone concepts, not changes to the existing homepage or tools; their
-tool links lead to the current working tools.
+tool links lead to the current working tools. The refined direction, informed
+by feedback on the first two concepts, is available at `/design-refined`.
 
 ## To Do
 

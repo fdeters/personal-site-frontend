@@ -41,6 +41,7 @@
         Choose a concept to explore. These are homepage previews; links to the
         existing tools are real.
       </p>
+      <p><a href="/design-refined">View the refined direction ↗</a></p>
     </div>
     <div class="selector" aria-label="Choose a design direction">
       {#each directions as direction, i}

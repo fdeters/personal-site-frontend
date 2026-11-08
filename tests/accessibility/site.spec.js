@@ -15,7 +15,12 @@ for (const colorScheme of ['light', 'dark']) {
   test.describe(`${colorScheme} mode`, () => {
     test.use({ colorScheme });
 
-    for (const route of ['/', '/tools', '/tools/ranked-choice']) {
+    for (const route of [
+      '/',
+      '/tools',
+      '/tools/ranked-choice',
+      '/design-refined',
+    ]) {
       test(`${route} has no detectable accessibility violations`, async ({
         page,
       }) => {
@@ -44,6 +49,23 @@ for (const colorScheme of ['light', 'dark']) {
       await page.getByRole('button', { name: /Show election history/ }).click();
       await expect(page.getByText('Options: Pizza, Tacos')).toBeVisible();
       await expectNoAccessibilityViolations(page);
+    });
+
+    test('refined preview navigation and tool links work', async ({ page }) => {
+      await gotoHydratedPage(page, '/design-refined');
+      await page
+        .getByRole('link', { name: 'Web development', exact: true })
+        .click();
+      await expect(page).toHaveURL(/#web-development$/);
+      await page.getByRole('link', { name: 'Music', exact: true }).click();
+      await expect(page).toHaveURL(/#music$/);
+      await page.getByRole('link', { name: 'Tools', exact: true }).click();
+      await expect(page).toHaveURL(/#tools$/);
+      await page.getByRole('link', { name: /Ranked-choice voting/ }).click();
+      await expect(page).toHaveURL(/\/tools\/ranked-choice$/);
+      await expect(
+        page.getByRole('heading', { name: 'Ranked Choice Voting' })
+      ).toBeVisible();
     });
 
     test('each design preview is accessible and links to the voting tool', async ({
