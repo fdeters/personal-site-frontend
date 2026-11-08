@@ -372,7 +372,11 @@
     }
 
     .voting-tool {
-      margin-inline: calc(-6vw + 8px);
+      padding: 20px 0;
+      border: 0;
+      border-block: 2px solid var(--tool-frame);
+      background: transparent;
+      box-shadow: none;
     }
   }
 }

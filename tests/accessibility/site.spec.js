@@ -168,8 +168,20 @@ for (const colorScheme of ['light', 'dark']) {
       await page.getByRole('button', { name: 'Tally votes' }).click();
       await page.getByRole('button', { name: /Show election history/ }).click();
       const toolFrame = await page.locator('.voting-tool').boundingBox();
-      expect(toolFrame.x).toBeCloseTo(8, 0);
-      expect(toolFrame.width).toBeGreaterThanOrEqual(300);
+      expect(toolFrame.x).toBeGreaterThan(16);
+      expect(toolFrame.width).toBeGreaterThan(270);
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'padding-left',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'border-left-width',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'box-shadow',
+        'none'
+      );
       expect(
         await page.evaluate(
           () =>
