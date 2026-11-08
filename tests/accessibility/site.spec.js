@@ -81,6 +81,68 @@ for (const colorScheme of ['light', 'dark']) {
       await expectNoAccessibilityViolations(page);
     });
 
+    test('clearing saved data requires confirmation and can be cancelled', async ({
+      page,
+    }) => {
+      await page.addInitScript(() => {
+        localStorage.setItem(
+          'rcv_state',
+          JSON.stringify({ candidates: ['Pizza', 'Tacos'], ballots: [] })
+        );
+        localStorage.setItem(
+          'rcv_history',
+          JSON.stringify([
+            {
+              date: '2026-01-01T00:00:00.000Z',
+              candidates: ['Pizza', 'Tacos'],
+              ballotCount: 1,
+              winner: 'Pizza',
+              rounds: [],
+            },
+          ])
+        );
+      });
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      await expect(page.getByText('Pizza', { exact: true })).toBeVisible();
+      await expect(
+        page.getByRole('button', { name: /Show election history \(1\)/ })
+      ).toBeVisible();
+
+      await page.getByRole('button', { name: 'Clear all saved data' }).click();
+      await expect(
+        page.getByText(
+          'Are you sure? This will permanently delete your saved elections and history.'
+        )
+      ).toBeVisible();
+      await expectNoAccessibilityViolations(page);
+      await page.getByRole('button', { name: 'Cancel' }).click();
+      await expect(
+        page.getByRole('button', { name: 'Clear saved data' })
+      ).toHaveCount(0);
+      await expect(page.getByText('Pizza', { exact: true })).toBeVisible();
+      expect(
+        await page.evaluate(() => localStorage.getItem('rcv_state'))
+      ).not.toBeNull();
+      expect(
+        await page.evaluate(() => localStorage.getItem('rcv_history'))
+      ).not.toBeNull();
+
+      await page.getByRole('button', { name: 'Clear all saved data' }).click();
+      await page.getByRole('button', { name: 'Clear saved data' }).click();
+      await expect(
+        page.getByText('No options yet. Add some below.')
+      ).toBeVisible();
+      await expect(
+        page.getByRole('button', { name: /Show election history \(0\)/ })
+      ).toBeVisible();
+      expect(
+        await page.evaluate(() => localStorage.getItem('rcv_state'))
+      ).toBeNull();
+      expect(
+        await page.evaluate(() => localStorage.getItem('rcv_history'))
+      ).toBeNull();
+    });
+
     test('tools skip link moves focus to the main content', async ({
       page,
     }) => {

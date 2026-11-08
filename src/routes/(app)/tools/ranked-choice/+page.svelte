@@ -51,10 +51,17 @@
   /** @type {HistoryEntry[]} */
   let history = [];
   let showHistory = false;
+  let confirmingClearSavedData = false;
+  /** @type {HTMLButtonElement | undefined} */
+  let clearSavedDataButton;
 
   // ── Persistence helpers ──────────────────────────────────────────────────
   function saveState() {
     try {
+      if (candidates.length === 0 && ballots.length === 0) {
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
       const data = {
         candidates: candidates.map((c) => c.name),
         ballots: ballots.map((b) => b.toJSON()),
@@ -118,13 +125,22 @@
     }
   }
 
-  function clearSavedData() {
+  async function clearSavedData() {
+    confirmingClearSavedData = false;
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(HISTORY_KEY);
     candidates = [];
     ballots = [];
     result = null;
     history = [];
+    await tick();
+    clearSavedDataButton?.focus();
+  }
+
+  async function cancelClearSavedData() {
+    confirmingClearSavedData = false;
+    await tick();
+    clearSavedDataButton?.focus();
   }
 
   onMount(() => {
@@ -377,12 +393,43 @@
       </button>
       <button
         type="button"
+        bind:this={clearSavedDataButton}
         class="danger-text text-sm underline"
-        on:click={clearSavedData}
+        aria-expanded={confirmingClearSavedData}
+        aria-controls="clear-saved-data-confirmation"
+        on:click={() => (confirmingClearSavedData = true)}
       >
         Clear all saved data
       </button>
     </div>
+
+    {#if confirmingClearSavedData}
+      <div
+        id="clear-saved-data-confirmation"
+        class="mt-3 flex flex-wrap items-center justify-end gap-2 text-sm"
+        role="group"
+        aria-label="Clear all saved data confirmation"
+      >
+        <p class="mr-auto">
+          Are you sure? This will permanently delete your saved elections and
+          history.
+        </p>
+        <button
+          type="button"
+          class="danger-text underline"
+          on:click={clearSavedData}
+        >
+          Clear saved data
+        </button>
+        <button
+          type="button"
+          class="text-gray-600 underline dark:text-gray-400"
+          on:click={cancelClearSavedData}
+        >
+          Cancel
+        </button>
+      </div>
+    {/if}
 
     <div id="election-history" hidden={!showHistory}>
       {#if showHistory}
