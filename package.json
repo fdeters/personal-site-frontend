@@ -2,7 +2,7 @@
   "name": "personal-site-frontend",
   "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@10.34.9",
+  "packageManager": "pnpm@12.18.0",
   "engines": {
     "node": "26.x"
   },
@@ -12,11 +12,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "prettier --check .",
-    "test": "node --test \"src/**/*.test.js\""
+    "test": "node --test \"src/**/*.test.js\"",
+    "test:a11y": "playwright test"
   },
   "type": "module",
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@iconify-json/mdi": "^1.2.0",
+    "@playwright/test": "^1.55.0",
     "@sveltejs/adapter-vercel": "^6.3.5",
     "@sveltejs/kit": "^2.70.4",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",

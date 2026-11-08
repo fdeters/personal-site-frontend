@@ -28,7 +28,7 @@
           <table class="mt-1 w-full text-sm">
             <thead>
               <tr
-                class="border-b text-left text-gray-500 dark:border-darkmixed-300 dark:text-gray-400"
+                class="border-b text-left text-gray-600 dark:border-darkmixed-300 dark:text-gray-400"
               >
                 <th class="pb-1 pr-4">Option</th>
                 <th class="pb-1">Votes</th>
@@ -41,7 +41,7 @@
                   result.winner === candidate && i === result.rounds.length - 1}
                 <tr
                   class="border-b dark:border-darkmixed-300"
-                  class:text-red-500={isEliminated}
+                  class:text-red-700={isEliminated}
                   class:font-bold={isWinner}
                 >
                   <td class="py-1 pr-4">

@@ -163,7 +163,7 @@
 
 <main class="mx-auto max-w-xl">
   <h1 class="text-2xl font-bold">Ranked Choice Voting</h1>
-  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+  <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
     Can't decide where to eat or what to do? Add your options, have everyone
     fill out a ballot, and let ranked-choice voting pick a winner.
   </p>
@@ -172,7 +172,9 @@
   <section class="mt-6">
     <h2 class="text-lg font-semibold">Options</h2>
     {#if candidates.length === 0}
-      <p class="mt-1 text-sm text-gray-400">No options yet. Add some below.</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        No options yet. Add some below.
+      </p>
     {:else}
       <ul class="mt-2 flex flex-col gap-1">
         {#each candidates as candidate (candidate.name)}
@@ -181,7 +183,7 @@
             <button
               type="button"
               title="Remove {candidate.name}"
-              class="text-gray-400 hocus:text-red-500"
+              class="text-gray-600 hocus:text-red-700 dark:text-gray-400"
               on:click={() => removeOption(candidate)}
             >
               <IconTrash />
@@ -205,7 +207,7 @@
       <button
         type="submit"
         title="Add option"
-        class="rounded bg-primary-500 px-2 py-1 text-white hocus:bg-primary-600"
+        class="rounded bg-primary-600 px-2 py-1 text-white hocus:bg-yellow-800"
       >
         <IconPlus />
         <span class="sr-only">Add option</span>
@@ -218,11 +220,13 @@
     <h2 class="text-lg font-semibold">Ballots</h2>
 
     {#if candidates.length < 2}
-      <p class="mt-1 text-sm text-gray-400">
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
         Add at least 2 options to start voting.
       </p>
     {:else if ballots.length === 0}
-      <p class="mt-1 text-sm text-gray-400">Add a ballot to start voting.</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        Add a ballot to start voting.
+      </p>
     {:else}
       <div class="mt-2 flex flex-col gap-3">
         {#each ballots as ballot, i (i)}
@@ -237,7 +241,7 @@
             <button
               type="button"
               title="Remove ballot {i + 1}"
-              class="self-start text-gray-400 hocus:text-red-500"
+              class="self-start text-gray-600 hocus:text-red-700 dark:text-gray-400"
               on:click={() => removeBallot(i)}
             >
               <IconTrash />
@@ -264,7 +268,7 @@
     <button
       type="button"
       disabled={!canTally}
-      class="rounded bg-primary-500 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 hocus:bg-primary-600"
+      class="rounded bg-primary-600 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 hocus:bg-yellow-800"
       on:click={tally}
     >
       Tally votes
@@ -286,14 +290,14 @@
     <div class="flex items-center justify-between">
       <button
         type="button"
-        class="text-sm text-gray-500 underline hocus:text-gray-700 dark:text-gray-400"
+        class="text-sm text-gray-600 underline hocus:text-gray-700 dark:text-gray-400"
         on:click={() => (showHistory = !showHistory)}
       >
         {showHistory ? 'Hide' : 'Show'} election history ({history.length})
       </button>
       <button
         type="button"
-        class="text-sm text-red-400 underline hocus:text-red-600"
+        class="text-sm text-red-700 underline hocus:text-red-800 dark:text-red-400"
         on:click={clearSavedData}
       >
         Clear all saved data
@@ -302,7 +306,9 @@
 
     {#if showHistory}
       {#if history.length === 0}
-        <p class="mt-2 text-sm text-gray-400">No past elections saved.</p>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          No past elections saved.
+        </p>
       {:else}
         <div class="mt-3 flex flex-col gap-4">
           {#each history as entry}
@@ -320,7 +326,7 @@
                   No winner (tie)
                 {/if}
               </p>
-              <p class="mt-1 text-gray-400">
+              <p class="mt-1 text-gray-600 dark:text-gray-400">
                 Options: {entry.candidates.join(', ')}
               </p>
             </div>
