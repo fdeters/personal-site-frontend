@@ -219,6 +219,31 @@ for (const colorScheme of ['light', 'dark']) {
       await page.mouse.up();
     });
 
+    test('dark headings retain their weight with more letter spacing', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/');
+      const toggle = page.getByRole('switch', { name: 'Dark mode' });
+      if (colorScheme === 'dark') await toggle.click();
+      const styles = async (selector) =>
+        page.locator(selector).evaluate((element) => {
+          const style = getComputedStyle(element);
+          return {
+            weight: style.fontWeight,
+            spacing: parseFloat(style.letterSpacing),
+          };
+        });
+      const lightTitle = await styles('#intro-heading');
+      const lightSection = await styles('#web-heading');
+      await toggle.click();
+      const darkTitle = await styles('#intro-heading');
+      const darkSection = await styles('#web-heading');
+      expect(darkTitle.weight).toBe(lightTitle.weight);
+      expect(darkSection.weight).toBe(lightSection.weight);
+      expect(darkTitle.spacing).toBeGreaterThan(lightTitle.spacing);
+      expect(darkSection.spacing).toBeGreaterThan(lightSection.spacing);
+    });
+
     test('refined preview uses smooth scrolling when motion is allowed', async ({
       page,
     }) => {

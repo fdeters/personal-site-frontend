@@ -332,7 +332,6 @@
   :root[data-theme='dark']
     :is(.tool-brand, .tool-directory h1, .voting-tool h1) {
     letter-spacing: -0.025em;
-    font-weight: 750;
     line-height: 1.15;
   }
 
