@@ -1,12 +1,15 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
   export let ballot;
   export let ballotNumber;
 
-  // Trigger Svelte reactivity when ballot internals mutate.
-  let tick = 0;
+  const dispatch = createEventDispatcher();
+
+  // Trigger Svelte reactivity (locally and in the parent) when ballot internals mutate.
   function refresh() {
-    tick++;
     ballot = ballot;
+    dispatch('change');
   }
 
   function selectCandidate(event, rank) {

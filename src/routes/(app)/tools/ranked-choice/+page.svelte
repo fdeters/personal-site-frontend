@@ -214,7 +214,11 @@
         {#each ballots as ballot, i (i)}
           <div class="flex gap-2">
             <div class="flex-1">
-              <BallotForm {ballot} ballotNumber={i + 1} />
+              <BallotForm
+                {ballot}
+                ballotNumber={i + 1}
+                on:change={() => (ballots = ballots)}
+              />
             </div>
             <button
               type="button"
