@@ -1,5 +1,11 @@
 /** @type {import('./$types').PageLoad} */
 export async function load({ fetch }) {
+  // Allows building without network access (e.g. sandboxes/CI previews):
+  // VITE_OFFLINE_BUILD=true pnpm build
+  if (import.meta.env.VITE_OFFLINE_BUILD === "true") {
+    return { webdev: { links: [] }, music: { links: [] } };
+  }
+
   const response = await fetch(
     "https://personal-site-e7709-default-rtdb.firebaseio.com/topics.json"
   );

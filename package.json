@@ -6,7 +6,8 @@
     "preinstall": "npx only-allow pnpm",
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"src/**/*.test.js\""
   },
   "type": "module",
   "devDependencies": {
