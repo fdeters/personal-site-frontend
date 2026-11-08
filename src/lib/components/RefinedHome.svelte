@@ -130,13 +130,21 @@
     </main>
 
     <footer>
-      <span
+      <span class="copyright"
         >Forrest Deters, {new Date().getFullYear()}. All rights reserved.</span
       >
-      <a class="instagram-link" href="https://www.instagram.com/doctypeforrest"
-        ><IconInstagram aria-hidden="true" width="18" height="18" />Instagram</a
-      >
-      <a href="#about">Back to top ↑</a>
+      <div class="footer-links">
+        <a
+          class="instagram-link"
+          href="https://www.instagram.com/doctypeforrest"
+          ><IconInstagram
+            aria-hidden="true"
+            width="18"
+            height="18"
+          />Instagram</a
+        >
+        <a href="#about">Back to top ↑</a>
+      </div>
     </footer>
   </div>
 </div>
@@ -375,32 +383,44 @@
     font-weight: 750;
   }
   footer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 24px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px 24px;
     padding: 27px 0 35px;
     color: var(--site-muted);
     font-size: 16px;
-    font-weight: 650;
+    font-weight: 550;
+    line-height: 1.5;
   }
   footer a {
     color: var(--site-text);
   }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px 20px;
+  }
   .instagram-link {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
+    gap: 6px;
+    padding: 5px 10px;
     border: 1px solid var(--site-border);
-    background: var(--tool-card-bg);
-    color: var(--tool-card-text);
+    border-radius: 999px;
+    background: var(--site-surface);
+    color: var(--site-muted);
+    font-size: 14px;
+    font-weight: 600;
     text-decoration: none;
   }
   .instagram-link:hover,
   .instagram-link:focus-visible {
-    background: var(--tool-card-hover);
-    color: var(--tool-card-text);
+    border-color: var(--site-accent);
+    background: var(--link-hover-bg);
+    color: var(--link-hover-text);
   }
   nav a:active,
   .all-tools:active,
@@ -431,6 +451,13 @@
     box-shadow: 9px 9px 0 var(--tool-shadow);
   }
   @media (max-width: 700px) {
+    footer {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .footer-links {
+      justify-content: flex-start;
+    }
     .site-header {
       align-items: flex-start;
       flex-direction: column;

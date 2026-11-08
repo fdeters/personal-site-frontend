@@ -321,6 +321,14 @@ for (const colorScheme of ['light', 'dark']) {
         '0px'
       );
       await expect(page.locator('.voting-tool')).toHaveCSS(
+        'border-top-width',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'border-bottom-width',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
         'box-shadow',
         'none'
       );
@@ -413,12 +421,24 @@ for (const colorScheme of ['light', 'dark']) {
         'href',
         'https://www.instagram.com/doctypeforrest'
       );
-      await expect(instagram).toHaveCSS(
-        'background-color',
-        await page
-          .locator('.tool-link')
-          .evaluate((element) => getComputedStyle(element).backgroundColor)
+      await expect(instagram).toHaveCSS('border-radius', '999px');
+      const instagramBackground = await instagram.evaluate(
+        (element) => getComputedStyle(element).backgroundColor
       );
+      const toolCardBackground = await page
+        .locator('.tool-link')
+        .evaluate((element) => getComputedStyle(element).backgroundColor);
+      expect(instagramBackground).not.toBe(toolCardBackground);
+
+      await page.setViewportSize({ width: 320, height: 900 });
+      const copyright = page.locator('.copyright');
+      const footerLinks = page.locator('.footer-links');
+      const copyrightBox = await copyright.boundingBox();
+      const footerLinksBox = await footerLinks.boundingBox();
+      expect(footerLinksBox.y).toBeGreaterThanOrEqual(
+        copyrightBox.y + copyrightBox.height
+      );
+      expect(footerLinksBox.x + footerLinksBox.width).toBeLessThanOrEqual(320);
     });
 
     test('tool breadcrumbs and updated copy are accurate', async ({ page }) => {
