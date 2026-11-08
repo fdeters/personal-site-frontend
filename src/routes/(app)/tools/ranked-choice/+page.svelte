@@ -37,6 +37,10 @@
   let optionError = '';
   /** @type {HTMLInputElement} */
   let optionInput;
+  /** @type {HTMLUListElement | undefined} */
+  let optionList;
+  /** @type {HTMLHeadingElement | undefined} */
+  let optionsHeading;
   /** @type {HTMLButtonElement | undefined} */
   let addBallotButton;
   /** @type {HTMLDivElement | undefined} */
@@ -51,6 +55,9 @@
   /** @type {HistoryEntry[]} */
   let history = [];
   let showHistory = false;
+  let showResetConfirmation = false;
+  /** @type {HTMLButtonElement | undefined} */
+  let resetConfirmationButton;
 
   // ── Persistence helpers ──────────────────────────────────────────────────
   function saveState() {
@@ -167,8 +174,8 @@
     newOptionName = '';
   };
 
-  /** @param {Candidate} candidate */
-  const removeOption = async (candidate) => {
+  /** @param {Candidate} candidate @param {number} index */
+  const removeOption = async (candidate, index) => {
     candidates = candidates.filter((c) => c !== candidate);
     ballots = ballots.map((b) => {
       b.removeCandidate(candidate);
@@ -176,7 +183,12 @@
     });
     result = null;
     await tick();
-    optionInput.focus();
+    const removeButtons = optionList?.querySelectorAll('button');
+    if (removeButtons?.length) {
+      removeButtons.item(Math.min(index, removeButtons.length - 1)).focus();
+    } else {
+      optionsHeading?.focus();
+    }
   };
 
   // ── Ballot management ────────────────────────────────────────────────────
@@ -198,10 +210,31 @@
     addBallotButton?.focus();
   };
 
-  const resetSession = () => {
+  const requestReset = async () => {
+    showResetConfirmation = true;
+    await tick();
+    resetConfirmationButton?.focus();
+  };
+
+  const cancelReset = async () => {
+    showResetConfirmation = false;
+    await tick();
+    resetButton?.focus();
+  };
+
+  /** @type {HTMLButtonElement | undefined} */
+  let resetButton;
+
+  const resetSession = async () => {
+    candidates = [];
     ballots = [];
     result = null;
+    newOptionName = '';
+    optionError = '';
+    showResetConfirmation = false;
     saveState();
+    await tick();
+    optionInput?.focus();
   };
 
   // ── Tallying ─────────────────────────────────────────────────────────────
@@ -219,7 +252,7 @@
   <title>Ranked Choice Voting – forrestdeters.com</title>
 </svelte:head>
 
-<main class="voting-tool mx-auto max-w-xl" id="tool-main" tabindex="-1">
+<main class="voting-tool max-w-xl" id="tool-main" tabindex="-1">
   <p class="tool-kicker">Forrest Deters / Tools</p>
   <h1>Ranked Choice Voting</h1>
   <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
@@ -229,21 +262,23 @@
 
   <!-- ── Options ─────────────────────────────────────────────────────────── -->
   <section class="mt-6">
-    <h2 class="text-lg font-semibold">Options</h2>
+    <h2 bind:this={optionsHeading} tabindex="-1" class="text-lg font-semibold">
+      Options
+    </h2>
     {#if candidates.length === 0}
       <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
         No options yet. Add some below.
       </p>
     {:else}
-      <ul class="mt-2 flex flex-col gap-1">
-        {#each candidates as candidate (candidate.name)}
+      <ul bind:this={optionList} class="mt-2 flex flex-col gap-1">
+        {#each candidates as candidate, i (candidate.name)}
           <li class="flex items-center gap-2">
             <span class="flex-1">{candidate.name}</span>
             <button
               type="button"
               title="Remove {candidate.name}"
               class="text-gray-600 dark:text-gray-400"
-              on:click={() => removeOption(candidate)}
+              on:click={() => removeOption(candidate, i)}
             >
               <IconTrash />
               <span class="sr-only">Remove {candidate.name}</span>
@@ -347,11 +382,41 @@
     <button
       type="button"
       class="dark:border-darkmixed-300 rounded border border-gray-300 px-4 py-2 text-base"
-      on:click={resetSession}
+      bind:this={resetButton}
+      on:click={requestReset}
     >
-      Reset ballots
+      Reset
     </button>
   </div>
+  {#if showResetConfirmation}
+    <div
+      class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 p-3 text-base"
+      role="group"
+      aria-label="Confirm reset"
+    >
+      <p>
+        Are you sure you want to start a new election? This removes the current
+        options and ballots.
+      </p>
+      <div class="mt-2 flex gap-2">
+        <button
+          type="button"
+          bind:this={resetConfirmationButton}
+          class="bg-primary-600 hocus:bg-yellow-800 rounded px-3 py-1 text-white"
+          on:click={resetSession}
+        >
+          Start over
+        </button>
+        <button
+          type="button"
+          class="dark:border-darkmixed-300 rounded border border-gray-300 px-3 py-1"
+          on:click={cancelReset}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  {/if}
 
   <!-- ── Results ─────────────────────────────────────────────────────────── -->
   <p class="sr-only" role="status" aria-atomic="true">
