@@ -29,6 +29,8 @@ pnpm build
 
 You can preview the production build with `pnpm preview`.
 
+Run the formatting and test checks locally with `pnpm lint` and `pnpm test`.
+
 The default build uses `@sveltejs/adapter-vercel`. Vercel selects Node.js 26
 from the `engines.node` setting in `package.json` and uses the pinned pnpm
 version from the install command in `vercel.json` (keep it in sync with
