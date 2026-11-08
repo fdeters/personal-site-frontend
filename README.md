@@ -17,12 +17,19 @@ Name new feature branches like this: `feature/<name>`. For example, `feature/dar
 
 ## Building
 
-To create a production version of the app
+Use Node.js 26 and pnpm 10.34.9 (the version specified by `packageManager`).
+To install dependencies and create a production version of the app:
 
 ```bash
-npm run build
+pnpm install --frozen-lockfile
+pnpm build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with `pnpm preview`.
 
-This app uses `@sveltejs/adapter-vercel` and is deployed on Vercel (build with Node 18, 20 or 22). The legacy Firebase Hosting GitHub Action is still present until the Vercel cutover is complete.
+The default build uses `@sveltejs/adapter-vercel`. Vercel selects Node.js 26
+from the `engines.node` setting in `package.json` and uses the pinned pnpm
+version from the install command in `vercel.json` (keep it in sync with
+`packageManager`). The Firebase Hosting GitHub
+Action remains in place until cutover and sets `FIREBASE_HOSTING=true` to build
+with `@sveltejs/adapter-static` instead.
