@@ -4,6 +4,25 @@ My personal site frontend. Built with SvelteKit + Vite.
 Topic links are stored in `src/lib/data/topics.json`. Tailwind CSS for styling,
 and Prettier for code formatting.
 
+## Design exploration
+
+Visit `/design-previews` to compare four proposed homepage directions. These
+are standalone concepts; their tool links lead to the current working tools.
+The refined direction is available at `/design-refined` and is also used on
+the homepage.
+
+The homepage uses `src/lib/styles/in-page-navigation.css` and the
+`inPageNavigation` Svelte action for native anchor scrolling and temporary
+target highlighting. Apply the action and `jump-navigation` class to a page
+wrapper and `jump-target` to focusable anchor targets to reuse it; smooth
+scrolling is disabled when reduced motion is requested.
+
+The theme follows the system preference until the user toggles dark mode. A
+manual choice is stored in `localStorage` and applies across the site.
+
+The ranked-choice tool requires nonempty, unique option names. Validation
+messages appear alongside the option field.
+
 ## To Do
 
 - [x] Make it easier to tap on external links on mobile (buttons are very small right now)

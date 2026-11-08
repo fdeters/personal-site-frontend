@@ -1,0 +1,26 @@
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.jump-navigation) {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.jump-navigation) {
+    scroll-behavior: auto;
+  }
+}
+
+.jump-target {
+  scroll-margin-top: 24px;
+}
+
+.jump-target.jump-highlight {
+  background: var(--jump-target-background);
+  outline: 3px solid var(--jump-target-accent);
+  outline-offset: 3px;
+}
+
+.jump-target:focus-visible {
+  outline: 3px solid var(--jump-target-focus);
+  outline-offset: 7px;
+}
