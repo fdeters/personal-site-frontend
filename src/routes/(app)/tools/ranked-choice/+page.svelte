@@ -37,6 +37,10 @@
   let optionError = '';
   /** @type {HTMLInputElement} */
   let optionInput;
+  /** @type {HTMLUListElement | undefined} */
+  let optionList;
+  /** @type {HTMLHeadingElement | undefined} */
+  let optionsHeading;
   /** @type {HTMLButtonElement | undefined} */
   let addBallotButton;
   /** @type {HTMLDivElement | undefined} */
@@ -170,8 +174,8 @@
     newOptionName = '';
   };
 
-  /** @param {Candidate} candidate */
-  const removeOption = async (candidate) => {
+  /** @param {Candidate} candidate @param {number} index */
+  const removeOption = async (candidate, index) => {
     candidates = candidates.filter((c) => c !== candidate);
     ballots = ballots.map((b) => {
       b.removeCandidate(candidate);
@@ -179,7 +183,12 @@
     });
     result = null;
     await tick();
-    optionInput.focus();
+    const removeButtons = optionList?.querySelectorAll('button');
+    if (removeButtons?.length) {
+      removeButtons.item(Math.min(index, removeButtons.length - 1)).focus();
+    } else {
+      optionsHeading?.focus();
+    }
   };
 
   // ── Ballot management ────────────────────────────────────────────────────
@@ -253,21 +262,23 @@
 
   <!-- ── Options ─────────────────────────────────────────────────────────── -->
   <section class="mt-6">
-    <h2 class="text-lg font-semibold">Options</h2>
+    <h2 bind:this={optionsHeading} tabindex="-1" class="text-lg font-semibold">
+      Options
+    </h2>
     {#if candidates.length === 0}
       <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
         No options yet. Add some below.
       </p>
     {:else}
-      <ul class="mt-2 flex flex-col gap-1">
-        {#each candidates as candidate (candidate.name)}
+      <ul bind:this={optionList} class="mt-2 flex flex-col gap-1">
+        {#each candidates as candidate, i (candidate.name)}
           <li class="flex items-center gap-2">
             <span class="flex-1">{candidate.name}</span>
             <button
               type="button"
               title="Remove {candidate.name}"
               class="text-gray-600 dark:text-gray-400"
-              on:click={() => removeOption(candidate)}
+              on:click={() => removeOption(candidate, i)}
             >
               <IconTrash />
               <span class="sr-only">Remove {candidate.name}</span>
