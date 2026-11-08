@@ -114,8 +114,14 @@ for (const colorScheme of ['light', 'dark']) {
           'Are you sure? This will permanently delete your saved elections and history.'
         )
       ).toBeVisible();
+      await expect(
+        page.getByRole('button', { name: 'Clear saved data' })
+      ).toBeFocused();
       await expectNoAccessibilityViolations(page);
       await page.getByRole('button', { name: 'Cancel' }).click();
+      await expect(
+        page.getByRole('button', { name: 'Clear all saved data' })
+      ).toBeFocused();
       await expect(
         page.getByRole('button', { name: 'Clear saved data' })
       ).toHaveCount(0);
@@ -129,6 +135,9 @@ for (const colorScheme of ['light', 'dark']) {
 
       await page.getByRole('button', { name: 'Clear all saved data' }).click();
       await page.getByRole('button', { name: 'Clear saved data' }).click();
+      await expect(
+        page.getByRole('button', { name: 'Clear all saved data' })
+      ).toBeFocused();
       await expect(
         page.getByText('No options yet. Add some below.')
       ).toBeVisible();

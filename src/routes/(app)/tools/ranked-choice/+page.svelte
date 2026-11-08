@@ -54,6 +54,8 @@
   let confirmingClearSavedData = false;
   /** @type {HTMLButtonElement | undefined} */
   let clearSavedDataButton;
+  /** @type {HTMLButtonElement | undefined} */
+  let clearSavedDataConfirmationButton;
 
   // ── Persistence helpers ──────────────────────────────────────────────────
   function saveState() {
@@ -123,6 +125,12 @@
     } catch (_) {
       return [];
     }
+  }
+
+  async function requestClearSavedData() {
+    confirmingClearSavedData = true;
+    await tick();
+    clearSavedDataConfirmationButton?.focus();
   }
 
   async function clearSavedData() {
@@ -397,7 +405,7 @@
         class="danger-text text-sm underline"
         aria-expanded={confirmingClearSavedData}
         aria-controls="clear-saved-data-confirmation"
-        on:click={() => (confirmingClearSavedData = true)}
+        on:click={requestClearSavedData}
       >
         Clear all saved data
       </button>
@@ -406,28 +414,31 @@
     {#if confirmingClearSavedData}
       <div
         id="clear-saved-data-confirmation"
-        class="mt-3 flex flex-wrap items-center justify-end gap-2 text-sm"
+        class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 p-3 text-sm"
         role="group"
-        aria-label="Clear all saved data confirmation"
+        aria-label="Confirm clearing saved data"
       >
-        <p class="mr-auto">
+        <p>
           Are you sure? This will permanently delete your saved elections and
           history.
         </p>
-        <button
-          type="button"
-          class="danger-text underline"
-          on:click={clearSavedData}
-        >
-          Clear saved data
-        </button>
-        <button
-          type="button"
-          class="text-gray-600 underline dark:text-gray-400"
-          on:click={cancelClearSavedData}
-        >
-          Cancel
-        </button>
+        <div class="mt-2 flex gap-2">
+          <button
+            type="button"
+            bind:this={clearSavedDataConfirmationButton}
+            class="bg-primary-600 hocus:bg-yellow-800 rounded px-3 py-1 text-white"
+            on:click={clearSavedData}
+          >
+            Clear saved data
+          </button>
+          <button
+            type="button"
+            class="dark:border-darkmixed-300 rounded border border-gray-300 px-3 py-1"
+            on:click={cancelClearSavedData}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     {/if}
 
