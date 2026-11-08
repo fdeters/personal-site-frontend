@@ -152,6 +152,52 @@ for (const colorScheme of ['light', 'dark']) {
       ).toBeNull();
     });
 
+    test('reset starts a new election only after confirmation', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      const optionInput = page.getByRole('textbox', {
+        name: 'New option name',
+      });
+      const options = page.locator('section').first();
+      for (const name of ['Pizza', 'Tacos']) {
+        await optionInput.fill(name);
+        await page.getByRole('button', { name: 'Add option' }).click();
+      }
+      await page.getByRole('button', { name: 'Add ballot' }).click();
+      await page.getByRole('combobox', { name: '#1' }).selectOption('Pizza');
+      await page.getByRole('button', { name: 'Tally votes' }).click();
+
+      await page.getByRole('button', { name: 'Reset', exact: true }).click();
+      await expect(
+        page.getByText(
+          'Are you sure you want to start a new election? This removes the current options and ballots.'
+        )
+      ).toBeVisible();
+      await expect(options.getByText('Pizza', { exact: true })).toBeVisible();
+      await page.getByRole('button', { name: 'Cancel' }).click();
+      await expect(
+        page.getByRole('button', { name: 'Start over' })
+      ).toBeHidden();
+      await expect(options.getByText('Pizza', { exact: true })).toBeVisible();
+
+      await page.getByRole('button', { name: 'Reset', exact: true }).click();
+      await page.getByRole('button', { name: 'Start over' }).click();
+      await expect(
+        page.getByText('No options yet. Add some below.')
+      ).toBeVisible();
+      await expect(
+        page.getByText('Add a ballot to start voting.')
+      ).toBeHidden();
+      await page.reload();
+      await page.locator('#svelte-announcer').waitFor({ state: 'attached' });
+      await expect(
+        page.getByText('No options yet. Add some below.')
+      ).toBeVisible();
+      await page.getByRole('button', { name: /Show election history/ }).click();
+      await expect(page.getByText('Options: Pizza, Tacos')).toBeVisible();
+    });
+
     test('tools skip link moves focus to the main content', async ({
       page,
     }) => {

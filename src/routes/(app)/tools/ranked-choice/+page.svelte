@@ -56,6 +56,9 @@
   let clearSavedDataButton;
   /** @type {HTMLButtonElement | undefined} */
   let clearSavedDataConfirmationButton;
+  let showResetConfirmation = false;
+  /** @type {HTMLButtonElement | undefined} */
+  let resetConfirmationButton;
 
   // ── Persistence helpers ──────────────────────────────────────────────────
   function saveState() {
@@ -222,10 +225,31 @@
     addBallotButton?.focus();
   };
 
-  const resetSession = () => {
+  const requestReset = async () => {
+    showResetConfirmation = true;
+    await tick();
+    resetConfirmationButton?.focus();
+  };
+
+  const cancelReset = async () => {
+    showResetConfirmation = false;
+    await tick();
+    resetButton?.focus();
+  };
+
+  /** @type {HTMLButtonElement | undefined} */
+  let resetButton;
+
+  const resetSession = async () => {
+    candidates = [];
     ballots = [];
     result = null;
+    newOptionName = '';
+    optionError = '';
+    showResetConfirmation = false;
     saveState();
+    await tick();
+    optionInput?.focus();
   };
 
   // ── Tallying ─────────────────────────────────────────────────────────────
@@ -370,12 +394,42 @@
     </button>
     <button
       type="button"
+      bind:this={resetButton}
       class="dark:border-darkmixed-300 rounded border border-gray-300 px-4 py-2 text-sm"
-      on:click={resetSession}
+      on:click={requestReset}
     >
-      Reset ballots
+      Reset
     </button>
   </div>
+  {#if showResetConfirmation}
+    <div
+      class="dark:border-darkmixed-300 mt-3 rounded border border-gray-300 p-3 text-sm"
+      role="group"
+      aria-label="Confirm reset"
+    >
+      <p>
+        Are you sure you want to start a new election? This removes the current
+        options and ballots.
+      </p>
+      <div class="mt-2 flex gap-2">
+        <button
+          type="button"
+          bind:this={resetConfirmationButton}
+          class="bg-primary-600 hocus:bg-yellow-800 rounded px-3 py-1 text-white"
+          on:click={resetSession}
+        >
+          Start over
+        </button>
+        <button
+          type="button"
+          class="dark:border-darkmixed-300 rounded border border-gray-300 px-3 py-1"
+          on:click={cancelReset}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  {/if}
 
   <!-- ── Results ─────────────────────────────────────────────────────────── -->
   <p class="sr-only" role="status" aria-atomic="true">
