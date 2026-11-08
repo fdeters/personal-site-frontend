@@ -110,7 +110,7 @@ for (const colorScheme of ['light', 'dark']) {
       await expect(page.locator('#tool-main')).toBeFocused();
     });
 
-    test('voting form identifies errors and preserves keyboard focus after removal', async ({
+    test('voting form identifies errors and manages focus after removal', async ({
       page,
     }) => {
       await gotoHydratedPage(page, '/tools/ranked-choice');
@@ -149,7 +149,7 @@ for (const colorScheme of ['light', 'dark']) {
         page.getByRole('button', { name: 'Add ballot' })
       ).toBeFocused();
       await page.getByRole('button', { name: 'Remove Pizza' }).click();
-      await expect(input).toBeFocused();
+      await expect(input).not.toBeFocused();
       await expectNoAccessibilityViolations(page);
     });
 

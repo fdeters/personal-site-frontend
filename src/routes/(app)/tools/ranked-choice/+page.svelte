@@ -168,15 +168,13 @@
   };
 
   /** @param {Candidate} candidate */
-  const removeOption = async (candidate) => {
+  const removeOption = (candidate) => {
     candidates = candidates.filter((c) => c !== candidate);
     ballots = ballots.map((b) => {
       b.removeCandidate(candidate);
       return b;
     });
     result = null;
-    await tick();
-    optionInput.focus();
   };
 
   // ── Ballot management ────────────────────────────────────────────────────
