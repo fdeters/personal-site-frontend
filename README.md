@@ -25,4 +25,4 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-This app uses the `@sveltejs/adapter-static` for hosting. Static files are generated and hosted in CI with GitHub Actions to deploy to the live site.
+This app uses `@sveltejs/adapter-vercel` and is deployed on Vercel (build with Node 18, 20 or 22). The legacy Firebase Hosting GitHub Action is still present until the Vercel cutover is complete.
