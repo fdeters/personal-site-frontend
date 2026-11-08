@@ -17,12 +17,17 @@ Name new feature branches like this: `feature/<name>`. For example, `feature/dar
 
 ## Building
 
-To create a production version of the app
+Install dependencies with pnpm (the version is pinned in `package.json`):
 
 ```bash
-npm run build
+pnpm install --frozen-lockfile
 ```
 
-You can preview the production build with `npm run preview`.
+To create and preview a production build:
+
+```bash
+pnpm run build
+pnpm run preview
+```
 
 This app uses the `@sveltejs/adapter-static` for hosting. Static files are generated and hosted in CI with GitHub Actions to deploy to the live site.
