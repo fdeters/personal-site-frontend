@@ -12,11 +12,35 @@
   const HISTORY_KEY = 'rcv_history';
   const MAX_HISTORY = 5;
 
+  /**
+   * @typedef {{
+   *   candidates: string[],
+   *   ballots?: Array<{ ranking: Array<string | null> }>
+   * }} SavedState
+   */
+
+  /**
+   * @typedef {{
+   *   date: string,
+   *   candidates: string[],
+   *   ballotCount: number,
+   *   winner: string | null,
+   *   rounds: Array<{
+   *     counts: Array<{ name: string, votes: number }>,
+   *     eliminated: string[]
+   *   }>
+   * }} HistoryEntry
+   */
+
   // ── State ────────────────────────────────────────────────────────────────
   let newOptionName = '';
+  /** @type {Candidate[]} */
   let candidates = [];
+  /** @type {Ballot[]} */
   let ballots = [];
+  /** @type {ReturnType<Election['tally']> | null} */
   let result = null;
+  /** @type {HistoryEntry[]} */
   let history = [];
   let showHistory = false;
 
@@ -35,6 +59,7 @@
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
+      /** @type {SavedState} */
       const data = JSON.parse(raw);
       if (!Array.isArray(data.candidates)) return;
 
@@ -53,6 +78,7 @@
     } catch (_) {}
   }
 
+  /** @param {ReturnType<Election['tally']>} electionResult */
   function saveHistory(electionResult) {
     try {
       const entry = {
@@ -75,6 +101,7 @@
     } catch (_) {}
   }
 
+  /** @returns {HistoryEntry[]} */
   function loadHistoryRaw() {
     try {
       return JSON.parse(localStorage.getItem(HISTORY_KEY) ?? '[]');
@@ -99,9 +126,15 @@
 
   // ── Reactivity ───────────────────────────────────────────────────────────
   let mounted = false;
-  onMount(() => { mounted = true; });
+  onMount(() => {
+    mounted = true;
+  });
 
-  $: if (mounted) { candidates; ballots; saveState(); }
+  $: if (mounted) {
+    candidates;
+    ballots;
+    saveState();
+  }
 
   // ── Option management ────────────────────────────────────────────────────
   const addOption = () => {
@@ -109,13 +142,20 @@
     if (!name) return;
     const candidate = new Candidate(name);
     candidates = [...candidates, candidate];
-    ballots = ballots.map((b) => { b.addCandidate(candidate); return b; });
+    ballots = ballots.map((b) => {
+      b.addCandidate(candidate);
+      return b;
+    });
     newOptionName = '';
   };
 
+  /** @param {Candidate} candidate */
   const removeOption = (candidate) => {
     candidates = candidates.filter((c) => c !== candidate);
-    ballots = ballots.map((b) => { b.removeCandidate(candidate); return b; });
+    ballots = ballots.map((b) => {
+      b.removeCandidate(candidate);
+      return b;
+    });
     result = null;
   };
 
@@ -124,6 +164,7 @@
     ballots = [...ballots, new Ballot(candidates)];
   };
 
+  /** @param {number} index */
   const removeBallot = (index) => {
     ballots = ballots.filter((_, i) => i !== index);
     result = null;
@@ -152,8 +193,8 @@
 <main class="mx-auto max-w-xl">
   <h1 class="text-2xl font-bold">Ranked Choice Voting</h1>
   <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-    Can't decide where to eat or what to do? Add your options, have everyone fill
-    out a ballot, and let ranked-choice voting pick a winner.
+    Can't decide where to eat or what to do? Add your options, have everyone
+    fill out a ballot, and let ranked-choice voting pick a winner.
   </p>
 
   <!-- ── Options ─────────────────────────────────────────────────────────── -->
@@ -169,7 +210,7 @@
             <button
               type="button"
               title="Remove {candidate.name}"
-              class="text-gray-400 hocus:text-red-500"
+              class="hocus:text-red-500 text-gray-400"
               on:click={() => removeOption(candidate)}
             >
               <IconTrash />
@@ -187,13 +228,13 @@
         id="new-option-name"
         aria-label="New option name"
         placeholder="Add an option…"
-        class="flex-1 rounded border border-gray-300 px-2 py-1 text-sm dark:border-darkmixed-300 dark:bg-dark-500"
+        class="dark:border-darkmixed-300 dark:bg-dark-500 flex-1 rounded border border-gray-300 px-2 py-1 text-sm"
         bind:value={newOptionName}
       />
       <button
         type="submit"
         title="Add option"
-        class="rounded bg-primary-500 px-2 py-1 text-white hocus:bg-primary-600"
+        class="bg-primary-500 hocus:bg-primary-600 rounded px-2 py-1 text-white"
       >
         <IconPlus />
         <span class="sr-only">Add option</span>
@@ -206,7 +247,9 @@
     <h2 class="text-lg font-semibold">Ballots</h2>
 
     {#if candidates.length < 2}
-      <p class="mt-1 text-sm text-gray-400">Add at least 2 options to start voting.</p>
+      <p class="mt-1 text-sm text-gray-400">
+        Add at least 2 options to start voting.
+      </p>
     {:else if ballots.length === 0}
       <p class="mt-1 text-sm text-gray-400">Add a ballot to start voting.</p>
     {:else}
@@ -223,7 +266,7 @@
             <button
               type="button"
               title="Remove ballot {i + 1}"
-              class="self-start text-gray-400 hocus:text-red-500"
+              class="hocus:text-red-500 self-start text-gray-400"
               on:click={() => removeBallot(i)}
             >
               <IconTrash />
@@ -237,7 +280,7 @@
     {#if candidates.length >= 2}
       <button
         type="button"
-        class="mt-3 rounded border border-gray-300 px-3 py-1 text-sm hocus:border-primary-500 dark:border-darkmixed-300"
+        class="hocus:border-primary-500 dark:border-darkmixed-300 mt-3 rounded border border-gray-300 px-3 py-1 text-sm"
         on:click={addBallot}
       >
         + Add ballot
@@ -250,14 +293,14 @@
     <button
       type="button"
       disabled={!canTally}
-      class="rounded bg-primary-500 px-4 py-2 font-medium text-white hocus:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-40"
+      class="bg-primary-500 hocus:bg-primary-600 rounded px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-40"
       on:click={tally}
     >
       Tally votes
     </button>
     <button
       type="button"
-      class="rounded border border-gray-300 px-4 py-2 text-sm hocus:border-red-400 hocus:text-red-500 dark:border-darkmixed-300"
+      class="hocus:border-red-400 hocus:text-red-500 dark:border-darkmixed-300 rounded border border-gray-300 px-4 py-2 text-sm"
       on:click={resetSession}
     >
       Reset ballots
@@ -268,18 +311,18 @@
   <Results {result} />
 
   <!-- ── History & storage ───────────────────────────────────────────────── -->
-  <section class="mt-8 border-t pt-4 dark:border-darkmixed-300">
+  <section class="dark:border-darkmixed-300 mt-8 border-t pt-4">
     <div class="flex items-center justify-between">
       <button
         type="button"
-        class="text-sm text-gray-500 underline hocus:text-gray-700 dark:text-gray-400"
+        class="hocus:text-gray-700 text-sm text-gray-500 underline dark:text-gray-400"
         on:click={() => (showHistory = !showHistory)}
       >
         {showHistory ? 'Hide' : 'Show'} election history ({history.length})
       </button>
       <button
         type="button"
-        class="text-sm text-red-400 underline hocus:text-red-600"
+        class="hocus:text-red-600 text-sm text-red-400 underline"
         on:click={clearSavedData}
       >
         Clear all saved data
@@ -292,7 +335,9 @@
       {:else}
         <div class="mt-3 flex flex-col gap-4">
           {#each history as entry}
-            <div class="rounded border border-gray-200 p-3 text-sm dark:border-darkmixed-300">
+            <div
+              class="dark:border-darkmixed-300 rounded border border-gray-200 p-3 text-sm"
+            >
               <p class="font-medium">
                 {new Date(entry.date).toLocaleString()} ·
                 {entry.ballotCount} ballot{entry.ballotCount === 1 ? '' : 's'}
@@ -304,7 +349,9 @@
                   No winner (tie)
                 {/if}
               </p>
-              <p class="mt-1 text-gray-400">Options: {entry.candidates.join(', ')}</p>
+              <p class="mt-1 text-gray-400">
+                Options: {entry.candidates.join(', ')}
+              </p>
             </div>
           {/each}
         </div>

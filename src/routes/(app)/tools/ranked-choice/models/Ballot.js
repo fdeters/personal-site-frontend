@@ -1,6 +1,8 @@
 export default class Ballot {
+  /** @param {import('./Candidate.js').default[]} candidates */
   constructor(candidates) {
     this._candidates = [...candidates];
+    /** @type {(import('./Candidate.js').default | null)[]} */
     this._ranking = Array(candidates.length).fill(null);
     this._unrankedCandidates = [...candidates];
   }
@@ -25,10 +27,14 @@ export default class Ballot {
   /**
    * Assign `name` to `rank` (1-based). If the slot was already filled, the
    * previous candidate is returned to the unranked pool.
+   * @param {string} name
+   * @param {number} rank
    */
   rankCandidate(name, rank) {
     if (rank < 1 || rank > this._candidates.length) {
-      throw new Error(`Invalid rank: must be between 1 and ${this._candidates.length}`);
+      throw new Error(
+        `Invalid rank: must be between 1 and ${this._candidates.length}`
+      );
     }
 
     const match = this._candidates.find((c) => c.name === name);
@@ -56,6 +62,7 @@ export default class Ballot {
   /**
    * Clear the slot at `rank` (1-based), returning its candidate to the
    * unranked pool and shifting higher ranks down.
+   * @param {number} rank
    */
   unrankCandidate(rank) {
     if (rank < 1 || rank > this._candidates.length) return;
@@ -75,6 +82,7 @@ export default class Ballot {
 
   /**
    * Add a new candidate to this ballot's pool without disturbing existing rankings.
+   * @param {import('./Candidate.js').default} candidate
    */
   addCandidate(candidate) {
     this._candidates = [...this._candidates, candidate];
@@ -85,10 +93,13 @@ export default class Ballot {
   /**
    * Remove a candidate from this ballot. If they were ranked, shift higher
    * ranks down to fill the gap.
+   * @param {import('./Candidate.js').default} candidate
    */
   removeCandidate(candidate) {
     this._candidates = this._candidates.filter((c) => c !== candidate);
-    this._unrankedCandidates = this._unrankedCandidates.filter((c) => c !== candidate);
+    this._unrankedCandidates = this._unrankedCandidates.filter(
+      (c) => c !== candidate
+    );
 
     const rankedIndex = this._ranking.indexOf(candidate);
     if (rankedIndex !== -1) {

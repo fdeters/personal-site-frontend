@@ -1,7 +1,9 @@
 <script>
   import { createEventDispatcher } from 'svelte';
 
+  /** @type {import('../models/Ballot.js').default} */
   export let ballot;
+  /** @type {number} */
   export let ballotNumber;
 
   const dispatch = createEventDispatcher();
@@ -12,8 +14,12 @@
     dispatch('change');
   }
 
+  /**
+   * @param {Event & { currentTarget: HTMLSelectElement }} event
+   * @param {number} rank
+   */
   function selectCandidate(event, rank) {
-    const name = event.target?.value;
+    const name = event.currentTarget.value;
     if (!name) {
       // User chose the placeholder — clear that slot.
       ballot.unrankCandidate(rank);
@@ -32,15 +38,17 @@
   })();
 </script>
 
-<fieldset class="rounded border border-gray-300 p-3 dark:border-darkmixed-300">
+<fieldset class="dark:border-darkmixed-300 rounded border border-gray-300 p-3">
   <legend class="px-1 font-medium">Ballot {ballotNumber}</legend>
   <div class="flex flex-col gap-2">
     {#each { length: visibleRanks } as _, i (i)}
       {@const ranked = ballot.ranking[i] ?? null}
       <label class="flex items-center gap-2">
-        <span class="w-16 text-sm text-gray-500 dark:text-gray-400">#{i + 1}</span>
+        <span class="w-16 text-sm text-gray-500 dark:text-gray-400"
+          >#{i + 1}</span
+        >
         <select
-          class="rounded border border-gray-300 bg-white px-2 py-1 text-sm dark:border-darkmixed-300 dark:bg-dark-500"
+          class="dark:border-darkmixed-300 dark:bg-dark-500 rounded border border-gray-300 bg-white px-2 py-1 text-sm"
           value={ranked?.name ?? ''}
           on:change={(e) => selectCandidate(e, i + 1)}
         >

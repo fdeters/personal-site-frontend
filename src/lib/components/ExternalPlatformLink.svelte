@@ -1,12 +1,12 @@
 <script>
-  import IconOpenInNew from "~icons/mdi/open-in-new";
+  import IconOpenInNew from '~icons/mdi/open-in-new';
 
   export let href;
 </script>
 
 <a
-  class="min-h-[2.3rem] rounded-md bg-[#f6efe6] px-2 text-yellow-700
-        dark:bg-primary-400 dark:text-dark-600"
+  class="dark:bg-primary-400 dark:text-dark-600 min-h-[2.3rem] rounded-md bg-[#f6efe6]
+        px-2 text-yellow-700"
   {href}
   target="_blank"
 >

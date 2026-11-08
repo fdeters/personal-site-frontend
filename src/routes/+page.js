@@ -1,4 +1,4 @@
-import topicsExport from "$lib/data/topics.json";
+import topicsExport from '#lib/data/topics.json';
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
@@ -7,7 +7,10 @@ export function load() {
       topicId,
       {
         ...topic,
-        links: Object.entries(topic.links).map(([id, link]) => ({ id, ...link })),
+        links: Object.entries(topic.links).map(([id, link]) => ({
+          id,
+          ...link,
+        })),
       },
     ])
   );

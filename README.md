@@ -16,11 +16,14 @@ Name new feature branches like this: `feature/<name>`. For example, `feature/dar
 
 ## Building
 
-Use Node.js 26 and pnpm 10.34.9 (the version specified by `packageManager`).
+Use Node.js 26 and pnpm 12.18.0 (the version specified by `packageManager`).
 To install dependencies and create a production version of the app:
 
 ```bash
 pnpm install --frozen-lockfile
+pnpm check
+pnpm test
+pnpm format:check
 pnpm build
 ```
 
@@ -30,3 +33,6 @@ The default build uses `@sveltejs/adapter-vercel`. Vercel selects Node.js 26
 from the `engines.node` setting in `package.json` and uses the pinned pnpm
 version from the install command in `vercel.json` (keep it in sync with
 `packageManager`).
+
+Copilot cloud-agent sessions install the same Node.js and pnpm versions using
+`.github/workflows/copilot-setup-steps.yml`.
