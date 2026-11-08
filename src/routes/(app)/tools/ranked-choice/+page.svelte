@@ -219,7 +219,7 @@
   <title>Ranked Choice Voting – forrestdeters.com</title>
 </svelte:head>
 
-<main class="voting-tool mx-auto max-w-xl" id="tool-main" tabindex="-1">
+<main class="voting-tool max-w-xl" id="tool-main" tabindex="-1">
   <p class="tool-kicker">Forrest Deters / Tools</p>
   <h1>Ranked Choice Voting</h1>
   <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">

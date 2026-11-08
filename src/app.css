@@ -298,6 +298,7 @@
   }
 
   .voting-tool {
+    margin-inline: auto;
     padding: clamp(20px, 4vw, 36px);
     border: 2px solid var(--tool-frame);
     background: var(--site-surface);
@@ -368,6 +369,10 @@
   @media (max-width: 480px) {
     .tool-content {
       padding-top: 30px;
+    }
+
+    .voting-tool {
+      margin-inline: calc(-6vw + 8px);
     }
   }
 }

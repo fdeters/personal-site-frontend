@@ -167,6 +167,9 @@ for (const colorScheme of ['light', 'dark']) {
       await page.getByRole('combobox', { name: '#1' }).selectOption('Pizza');
       await page.getByRole('button', { name: 'Tally votes' }).click();
       await page.getByRole('button', { name: /Show election history/ }).click();
+      const toolFrame = await page.locator('.voting-tool').boundingBox();
+      expect(toolFrame.x).toBeCloseTo(8, 0);
+      expect(toolFrame.width).toBeGreaterThanOrEqual(300);
       expect(
         await page.evaluate(
           () =>
