@@ -215,15 +215,13 @@ for (const colorScheme of ['light', 'dark']) {
       await expect(page.getByText('Options: Pizza, Tacos')).toBeVisible();
     });
 
-    test('tools skip link moves focus to the main content', async ({
-      page,
-    }) => {
+    test('the skip link moves focus to the main content', async ({ page }) => {
       for (const route of ['/tools', '/tools/ranked-choice']) {
         await gotoHydratedPage(page, route);
         const skip = page.getByRole('link', { name: 'Skip to content' });
         await skip.focus();
         await page.keyboard.press('Enter');
-        await expect(page.locator('#tool-main')).toBeFocused();
+        await expect(page.locator('#main-content')).toBeFocused();
       }
     });
 
@@ -233,15 +231,18 @@ for (const colorScheme of ['light', 'dark']) {
       await page.emulateMedia({ forcedColors: 'active' });
       await gotoHydratedPage(page, '/tools/ranked-choice');
       await page.keyboard.press('Tab');
-      const toggle = page.getByRole('switch', { name: 'Dark mode' });
-      await expect(toggle).toBeFocused();
-      await expect(toggle).toHaveCSS('outline-style', 'solid');
-      await page.keyboard.press('Tab');
       const skip = page.getByRole('link', { name: 'Skip to content' });
       await expect(skip).toBeFocused();
       await expect(skip).toBeInViewport();
+      await expect(skip).toHaveCSS('outline-style', 'solid');
+      await page.keyboard.press('Tab');
+      const toggle = page.getByRole('switch', { name: 'Dark mode' });
+      await expect(toggle).toBeFocused();
+      await expect(toggle).toHaveCSS('outline-style', 'solid');
+      await page.keyboard.press('Shift+Tab');
+      await expect(skip).toBeFocused();
       await page.keyboard.press('Enter');
-      await expect(page.locator('#tool-main')).toBeFocused();
+      await expect(page.locator('#main-content')).toBeFocused();
     });
 
     test('voting form identifies errors and manages focus after removal', async ({
@@ -320,6 +321,14 @@ for (const colorScheme of ['light', 'dark']) {
         '0px'
       );
       await expect(page.locator('.voting-tool')).toHaveCSS(
+        'border-top-width',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
+        'border-bottom-width',
+        '0px'
+      );
+      await expect(page.locator('.voting-tool')).toHaveCSS(
         'box-shadow',
         'none'
       );
@@ -382,6 +391,101 @@ for (const colorScheme of ['light', 'dark']) {
         'font-size',
         '16px'
       );
+    });
+
+    test('homepage redesign copy and layout are in place', async ({ page }) => {
+      await gotoHydratedPage(page, '/');
+      await expect(page.locator('.site-header')).toHaveCSS(
+        'border-bottom-width',
+        '0px'
+      );
+      await expect(page.locator('.sections')).toHaveCSS(
+        'border-top-width',
+        '0px'
+      );
+      await expect(
+        page.getByText(/Here you'll find my work, music/)
+      ).toHaveCount(0);
+      await expect(page.locator('.site-header nav a').first()).toHaveCSS(
+        'padding-top',
+        '4px'
+      );
+      await expect(page.locator('footer span').first()).toHaveText(
+        `Forrest Deters, ${new Date().getFullYear()}. All rights reserved.`
+      );
+      const instagram = page.getByRole('link', {
+        name: 'Instagram',
+        exact: true,
+      });
+      await expect(instagram).toHaveAttribute(
+        'href',
+        'https://www.instagram.com/doctypeforrest'
+      );
+      await expect(instagram).toHaveCSS('border-radius', '999px');
+      const instagramBackground = await instagram.evaluate(
+        (element) => getComputedStyle(element).backgroundColor
+      );
+      const toolCardBackground = await page
+        .locator('.tool-link')
+        .evaluate((element) => getComputedStyle(element).backgroundColor);
+      expect(instagramBackground).not.toBe(toolCardBackground);
+
+      await page.setViewportSize({ width: 320, height: 900 });
+      const copyright = page.locator('.copyright');
+      const footerLinks = page.locator('.footer-links');
+      const copyrightBox = await copyright.boundingBox();
+      const footerLinksBox = await footerLinks.boundingBox();
+      expect(footerLinksBox.y).toBeGreaterThanOrEqual(
+        copyrightBox.y + copyrightBox.height
+      );
+      expect(footerLinksBox.x + footerLinksBox.width).toBeLessThanOrEqual(320);
+    });
+
+    test('tool breadcrumbs and updated copy are accurate', async ({ page }) => {
+      await gotoHydratedPage(page, '/tools');
+      const directoryBreadcrumb = page.getByRole('navigation', {
+        name: 'Breadcrumb',
+      });
+      await expect(
+        directoryBreadcrumb.getByRole('link', { name: 'Forrest Deters' })
+      ).toHaveAttribute('href', '/');
+      await expect(
+        directoryBreadcrumb.locator('[aria-current="page"]')
+      ).toHaveText('Tools');
+      await expect(page.locator('.tool-directory > p')).toHaveText(
+        "Things I've made to use in my day-to-day life. You can use them too. If you want."
+      );
+      await expect(page.locator('.tool-directory-card small')).toHaveText(
+        'Make a group decision with minimal heartbreak.'
+      );
+      await expect(page.locator('.tool-header')).toHaveCSS(
+        'border-bottom-width',
+        '2px'
+      );
+
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      const votingBreadcrumb = page.getByRole('navigation', {
+        name: 'Breadcrumb',
+      });
+      await expect(
+        votingBreadcrumb.getByRole('link', { name: 'Forrest Deters' })
+      ).toHaveAttribute('href', '/');
+      await expect(
+        votingBreadcrumb.getByRole('link', { name: 'Tools' })
+      ).toHaveAttribute('href', '/tools');
+      await expect(
+        votingBreadcrumb.locator('[aria-current="page"]')
+      ).toHaveText('Ranked Choice Voting');
+      await expect(
+        page.getByText(
+          'Group decision-making is hard. Maximize satisfaction and minimize grumbling with ranked-choice voting!'
+        )
+      ).toBeVisible();
+      await expect(
+        page.getByText(
+          'Add your options, have everyone fill out a ballot, and let ranked-choice voting reveal the winner.'
+        )
+      ).toBeVisible();
     });
 
     test('ranked-choice action text maintains improved contrast', async ({
@@ -468,8 +572,6 @@ for (const colorScheme of ['light', 'dark']) {
       await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
 
       await page.keyboard.press('Tab');
-      await page.keyboard.press('Tab');
-      await page.keyboard.press('Tab');
       await expect(
         page.getByRole('link', { name: 'Skip to content' })
       ).toBeFocused();
@@ -499,7 +601,7 @@ for (const colorScheme of ['light', 'dark']) {
       await page.goto('/design-refined#tools');
       await expect(page.locator('#tools')).toHaveClass(/jump-highlight/);
       await expect(
-        page.getByRole('link', { name: 'Find me on Instagram ↗' })
+        page.getByRole('link', { name: 'Instagram', exact: true })
       ).toHaveAttribute('href', 'https://www.instagram.com/doctypeforrest');
     });
 

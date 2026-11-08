@@ -1,6 +1,5 @@
 <div class="tool-area">
   <header class="tool-header">
-    <a class="tool-skip-link" href="#tool-main">Skip to content</a>
     <a class="tool-brand" href="/">Forrest Deters<span>.</span></a>
     <nav aria-label="Tools navigation">
       <a href="/">Home</a>
