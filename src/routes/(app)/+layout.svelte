@@ -1,8 +1,8 @@
 <script>
-  import IconHome from '~icons/mdi/home'
+  import IconHome from '~icons/mdi/home';
 </script>
 
-<header class="flex justify-between mb-4">
+<header class="mb-4 flex justify-between">
   <nav>
     <a href="/" aria-label="Home">
       <IconHome style="height: 1.5rem" />

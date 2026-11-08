@@ -65,10 +65,7 @@
       >, Portland's regional government.
     </p>
   </TopicCard>
-  <TopicCard
-    title="Music"
-    links={sortLinksByClicks(data.music.links)}
-  >
+  <TopicCard title="Music" links={sortLinksByClicks(data.music.links)}>
     <p>
       These days, I perform and arrange vocal music for fun and
       semi-professionally.
@@ -76,7 +73,7 @@
   </TopicCard>
 </main>
 
-<footer class="mt-6 flex max-w-md mx-auto justify-center border-t pt-4">
+<footer class="mx-auto mt-6 flex max-w-md justify-center border-t pt-4">
   <nav>
     <a
       href="/tools"

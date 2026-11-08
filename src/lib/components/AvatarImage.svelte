@@ -1,8 +1,8 @@
 <script>
-  import InstagramLogo from "../assets/images/instagram.svg";
+  import InstagramLogo from '../assets/images/instagram.svg';
 
   export let src;
-  export let alt = "";
+  export let alt = '';
 </script>
 
 <div class="relative">

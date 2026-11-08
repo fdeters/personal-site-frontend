@@ -1,11 +1,11 @@
-import { sveltekit } from "@sveltejs/kit/vite";
-import Icons from "unplugin-icons/vite";
+import { sveltekit } from '@sveltejs/kit/vite';
+import Icons from 'unplugin-icons/vite';
 
 const config = {
   plugins: [
     sveltekit(),
     Icons({
-      compiler: "svelte",
+      compiler: 'svelte',
     }),
   ],
 };

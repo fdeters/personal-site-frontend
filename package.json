@@ -11,6 +11,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
+    "lint": "prettier --check .",
     "test": "node --test \"src/**/*.test.js\""
   },
   "type": "module",
