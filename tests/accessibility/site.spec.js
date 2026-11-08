@@ -176,6 +176,25 @@ for (const colorScheme of ['light', 'dark']) {
       ).toBe(true);
     });
 
+    test('voting text controls use a font size that prevents iOS zoom', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/tools/ranked-choice');
+      const optionInput = page.getByRole('textbox', {
+        name: 'New option name',
+      });
+      await expect(optionInput).toHaveCSS('font-size', '16px');
+      await optionInput.fill('Pizza');
+      await page.getByRole('button', { name: 'Add option' }).click();
+      await optionInput.fill('Tacos');
+      await page.getByRole('button', { name: 'Add option' }).click();
+      await page.getByRole('button', { name: 'Add ballot' }).click();
+      await expect(page.getByRole('combobox', { name: '#1' })).toHaveCSS(
+        'font-size',
+        '16px'
+      );
+    });
+
     test('eliminated options and the clear-data control remain accessible', async ({
       page,
     }) => {

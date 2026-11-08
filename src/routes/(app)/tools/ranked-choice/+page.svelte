@@ -265,7 +265,7 @@
           placeholder="Add an option…"
           aria-invalid={optionError ? 'true' : undefined}
           aria-describedby={optionError ? 'option-error' : undefined}
-          class="dark:border-darkmixed-300 dark:bg-dark-500 flex-1 rounded border border-gray-300 px-2 py-1 text-sm"
+          class="dark:border-darkmixed-300 dark:bg-dark-500 flex-1 rounded border border-gray-300 px-2 py-1 text-base"
           bind:this={optionInput}
           bind:value={newOptionName}
           on:input={() => (optionError = '')}
