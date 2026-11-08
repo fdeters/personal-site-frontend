@@ -145,7 +145,7 @@
     background: var(--site-bg);
     font-family: system-ui, sans-serif;
   }
-  .preview a {
+  :where(.preview a) {
     text-decoration: none;
   }
   .preview a:hover {

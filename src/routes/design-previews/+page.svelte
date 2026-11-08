@@ -415,7 +415,7 @@
   }
   .selector button:focus-visible,
   .concept a:focus-visible {
-    outline: 3px solid #e95f24;
+    outline: 3px solid #5b2e0d;
     outline-offset: 3px;
   }
   .selector button span {

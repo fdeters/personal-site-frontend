@@ -46,8 +46,7 @@
                     {candidate.name}
                     {#if isEliminated}<span class="text-xs">(eliminated)</span
                       >{/if}
-                    {#if isWinner}<span class="text-primary-600 text-xs">✓</span
-                      >{/if}
+                    {#if isWinner}<span class="text-xs">✓</span>{/if}
                   </td>
                   <td class="py-1">{count}</td>
                 </tr>

@@ -359,10 +359,6 @@
     color: #ffb1a3;
   }
 
-  .voting-tool .text-primary-600 {
-    color: inherit;
-  }
-
   :root[data-theme='dark']
     :is(.tool-brand, .tool-directory h1, .voting-tool h1) {
     letter-spacing: -0.025em;

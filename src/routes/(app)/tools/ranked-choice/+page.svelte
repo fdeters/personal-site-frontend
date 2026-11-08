@@ -47,6 +47,7 @@
   let ballots = [];
   /** @type {ReturnType<Election['tally']> | null} */
   let result = null;
+  let tallyCount = 0;
   /** @type {HistoryEntry[]} */
   let history = [];
   let showHistory = false;
@@ -206,6 +207,7 @@
   // ── Tallying ─────────────────────────────────────────────────────────────
   const tally = () => {
     const election = new Election(ballots, candidates);
+    tallyCount += 1;
     result = election.tally();
     saveHistory(result);
   };
@@ -355,8 +357,8 @@
   <p class="sr-only" role="status" aria-atomic="true">
     {#if result}
       {result.winner
-        ? `Winner: ${result.winner.name}.`
-        : 'No winner; all remaining options were tied.'}
+        ? `Tally ${tallyCount} complete. Winner: ${result.winner.name}.`
+        : `Tally ${tallyCount} complete. No winner; all remaining options were tied.`}
     {/if}
   </p>
   <Results {result} />

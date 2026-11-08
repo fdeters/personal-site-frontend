@@ -44,7 +44,29 @@ for (const colorScheme of ['light', 'dark']) {
       await page.getByRole('combobox', { name: '#1' }).selectOption('Pizza');
       await page.getByRole('button', { name: 'Tally votes' }).click();
       await expect(
-        page.getByRole('status').filter({ hasText: 'Winner: Pizza.' })
+        page
+          .getByRole('status')
+          .filter({ hasText: 'Tally 1 complete. Winner: Pizza.' })
+      ).toBeAttached();
+      const winnerRow = page.locator('tr.font-bold');
+      const winnerTextColor = await winnerRow.evaluate(
+        (row) => getComputedStyle(row).color
+      );
+      await expect(winnerRow.getByText('✓')).toHaveCSS(
+        'color',
+        winnerTextColor
+      );
+      await page.getByRole('button', { name: 'Add ballot' }).click();
+      await page
+        .locator('fieldset')
+        .last()
+        .getByRole('combobox', { name: '#1' })
+        .selectOption('Pizza');
+      await page.getByRole('button', { name: 'Tally votes' }).click();
+      await expect(
+        page
+          .getByRole('status')
+          .filter({ hasText: 'Tally 2 complete. Winner: Pizza.' })
       ).toBeAttached();
       await expect(
         page.getByRole('heading', { name: 'Results' })
@@ -53,7 +75,9 @@ for (const colorScheme of ['light', 'dark']) {
       await expect(
         page.getByRole('button', { name: /Hide election history/ })
       ).toHaveAttribute('aria-expanded', 'true');
-      await expect(page.getByText('Options: Pizza, Tacos')).toBeVisible();
+      await expect(
+        page.getByText('Options: Pizza, Tacos').first()
+      ).toBeVisible();
       await expectNoAccessibilityViolations(page);
     });
 
@@ -179,6 +203,9 @@ for (const colorScheme of ['light', 'dark']) {
 
     test('refined preview navigation and tool links work', async ({ page }) => {
       await gotoHydratedPage(page, '/design-refined');
+      await expect(
+        page.getByRole('link', { name: 'Metro', exact: true })
+      ).toHaveCSS('text-decoration-line', 'underline');
       await page
         .getByRole('link', { name: 'Web development', exact: true })
         .click();
@@ -192,6 +219,17 @@ for (const colorScheme of ['light', 'dark']) {
       await expect(
         page.getByRole('heading', { name: 'Ranked Choice Voting' })
       ).toBeVisible();
+    });
+
+    test('design preview keyboard focus uses a dark outline', async ({
+      page,
+    }) => {
+      await gotoHydratedPage(page, '/design-previews');
+      const selector = page.getByRole('button', {
+        name: /The Creative Studio/,
+      });
+      await selector.focus();
+      await expect(selector).toHaveCSS('outline-color', 'rgb(91, 46, 13)');
     });
 
     test('refined preview jump links highlight their targets and support keyboard navigation', async ({
