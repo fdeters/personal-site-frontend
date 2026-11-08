@@ -28,7 +28,9 @@ export default class Ballot {
    */
   rankCandidate(name, rank) {
     if (rank < 1 || rank > this._candidates.length) {
-      throw new Error(`Invalid rank: must be between 1 and ${this._candidates.length}`);
+      throw new Error(
+        `Invalid rank: must be between 1 and ${this._candidates.length}`
+      );
     }
 
     const match = this._candidates.find((c) => c.name === name);
@@ -88,7 +90,9 @@ export default class Ballot {
    */
   removeCandidate(candidate) {
     this._candidates = this._candidates.filter((c) => c !== candidate);
-    this._unrankedCandidates = this._unrankedCandidates.filter((c) => c !== candidate);
+    this._unrankedCandidates = this._unrankedCandidates.filter(
+      (c) => c !== candidate
+    );
 
     const rankedIndex = this._ranking.indexOf(candidate);
     if (rankedIndex !== -1) {

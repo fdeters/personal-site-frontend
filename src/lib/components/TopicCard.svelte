@@ -1,5 +1,5 @@
 <script>
-  import ExternalPlatformLink from "./ExternalPlatformLink.svelte";
+  import ExternalPlatformLink from './ExternalPlatformLink.svelte';
 
   export let title;
   export let links = []; // { id, url, text, clicks }
@@ -23,9 +23,7 @@
       <hr class="mb-3 dark:border-gray-400" />
       <div class="flex flex-wrap gap-2" aria-label="Links to other platforms">
         {#each links as link}
-          <ExternalPlatformLink
-            href={link.url}
-          >
+          <ExternalPlatformLink href={link.url}>
             {link.text}
           </ExternalPlatformLink>
         {/each}
