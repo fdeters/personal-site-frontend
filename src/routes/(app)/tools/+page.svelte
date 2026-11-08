@@ -2,14 +2,23 @@
   <title>Tools – forrestdeters.com</title>
 </svelte:head>
 
-<main class="tool-directory" id="tool-main" tabindex="-1">
-  <p class="tool-kicker">Forrest Deters / Tools</p>
+<main class="tool-directory" id="main-content" tabindex="-1">
+  <nav class="tool-breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Forrest Deters</a></li>
+      <li aria-hidden="true">›</li>
+      <li aria-current="page">Tools</li>
+    </ol>
+  </nav>
   <h1>Tools</h1>
-  <p>Tools I've made for people to use.</p>
+  <p>
+    Things I've made to use in my day-to-day life. You can use them too. If you
+    want.
+  </p>
   <a class="tool-directory-card" href="/tools/ranked-choice">
     <span>
       <strong>Ranked-choice voting</strong>
-      <small>Rank options and find a winner together.</small>
+      <small>Make a group decision with minimal heartbreak.</small>
     </span>
     <span aria-hidden="true">↗</span>
   </a>

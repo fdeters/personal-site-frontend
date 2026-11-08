@@ -72,7 +72,7 @@
             >
           </nav>
         </header>
-        <main>
+        <main id="main-content" tabindex="-1">
           <div class="index-hero">
             <div class="index-intro">
               <p class="eyebrow">
@@ -146,7 +146,7 @@
             ><a class="studio-nav-pill" href="/tools">Tools ↗</a>
           </nav>
         </header>
-        <main>
+        <main id="main-content" tabindex="-1">
           <div class="studio-hero" id="studio-about">
             <div>
               <p class="studio-tag">HELLO FROM PORTLAND ✳</p>
@@ -221,7 +221,7 @@
             ><a href="/tools">Tools ↗</a>
           </nav>
         </header>
-        <main>
+        <main id="main-content" tabindex="-1">
           <div class="notes-hero" id="notes-about">
             <div class="notes-intro">
               <p class="notes-kicker">A LITTLE CORNER OF THE INTERNET</p>
@@ -295,7 +295,7 @@
             ><a class="commons-nav-button" href="/tools">Browse tools ↗</a>
           </nav>
         </header>
-        <main>
+        <main id="main-content" tabindex="-1">
           <div class="commons-hero" id="commons-about">
             <div>
               <p class="commons-kicker">

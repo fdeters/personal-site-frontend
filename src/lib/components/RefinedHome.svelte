@@ -3,6 +3,7 @@
   import topics from '#lib/data/topics.json';
   import '#lib/styles/in-page-navigation.css';
   import { inPageNavigation } from '#lib/in-page-navigation.js';
+  import IconInstagram from '~icons/mdi/instagram';
 
   const { webdev, music } = topics.topics;
   export let preview = false;
@@ -18,7 +19,6 @@
 
   <div class="site">
     <header class="site-header">
-      <a class="skip-link" href="#main-content">Skip to content</a>
       <a class="brand" href="/">Forrest Deters<span>.</span></a>
       <nav aria-label="Site sections">
         <a href="#web-development">Web development</a>
@@ -39,9 +39,6 @@
           <p class="intro-text">
             I'm a web developer and vocal musician in Portland, Oregon. I like
             pop funk, soccer, and games.
-          </p>
-          <p class="intro-detail">
-            Here you'll find my work, music, and tools for anyone to use.
           </p>
         </div>
         <div class="portrait">
@@ -115,11 +112,14 @@
             <h2 id="tools-heading">Tools</h2>
           </div>
           <div class="section-body">
-            <p>Tools I've made for people to use.</p>
+            <p>
+              Things I've made to use in my day-to-day life. You can use them
+              too. If you want.
+            </p>
             <a class="tool-link" href="/tools/ranked-choice">
               <span>
                 <strong>Ranked-choice voting</strong>
-                <small>Rank options and find a winner together.</small>
+                <small>Make a group decision with minimal heartbreak.</small>
               </span>
               <span class="tool-arrow" aria-hidden="true">↗</span>
             </a>
@@ -130,9 +130,11 @@
     </main>
 
     <footer>
-      <span>Forrest Deters</span>
-      <a href="https://www.instagram.com/doctypeforrest"
-        >Find me on Instagram ↗</a
+      <span
+        >Forrest Deters, {new Date().getFullYear()}. All rights reserved.</span
+      >
+      <a class="instagram-link" href="https://www.instagram.com/doctypeforrest"
+        ><IconInstagram aria-hidden="true" width="18" height="18" />Instagram</a
       >
       <a href="#about">Back to top ↑</a>
     </footer>
@@ -158,19 +160,6 @@
   .preview a:active {
     outline: 2px solid currentColor;
     outline-offset: 2px;
-  }
-  .skip-link {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    z-index: 1;
-    transform: translateY(-200%);
-    padding: 12px 16px;
-    background: var(--site-text);
-    color: var(--site-bg);
-  }
-  .skip-link:focus {
-    transform: none;
   }
   .preview-notice {
     display: flex;
@@ -204,7 +193,6 @@
     justify-content: space-between;
     align-items: center;
     gap: 25px;
-    border-bottom: 2px solid var(--site-text);
   }
   .brand {
     white-space: nowrap;
@@ -223,7 +211,7 @@
     font-weight: 700;
   }
   nav a {
-    padding: 10px 0;
+    padding: 4px 0;
   }
   nav a:hover,
   nav a:focus-visible,
@@ -257,13 +245,6 @@
     line-height: 1.4;
     letter-spacing: -0.025em;
   }
-  .intro-detail {
-    max-width: 500px;
-    margin-top: 20px;
-    color: var(--site-muted);
-    font-size: 16px;
-    line-height: 1.65;
-  }
   .portrait {
     padding: 10px;
     background: #e6bb65;
@@ -276,9 +257,6 @@
     height: 340px;
     object-fit: cover;
     object-position: center 35%;
-  }
-  .sections {
-    border-top: 2px solid var(--site-text);
   }
   .content-section {
     display: grid;
@@ -409,6 +387,21 @@
   footer a {
     color: var(--site-text);
   }
+  .instagram-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--site-border);
+    background: var(--tool-card-bg);
+    color: var(--tool-card-text);
+    text-decoration: none;
+  }
+  .instagram-link:hover,
+  .instagram-link:focus-visible {
+    background: var(--tool-card-hover);
+    color: var(--tool-card-text);
+  }
   nav a:active,
   .all-tools:active,
   footer a:active {
@@ -441,8 +434,8 @@
     .site-header {
       align-items: flex-start;
       flex-direction: column;
-      gap: 15px;
-      padding: 20px 0;
+      gap: 12px;
+      padding: 24px 0 18px;
     }
     nav {
       gap: 10px 20px;

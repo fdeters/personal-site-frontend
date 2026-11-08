@@ -42,6 +42,7 @@
 </script>
 
 <div class="app-shell">
+  <a class="app-skip-link" href="#main-content">Skip to content</a>
   <nav class="theme-bar" aria-label="Appearance">
     <button
       type="button"

@@ -276,12 +276,24 @@
   <title>Ranked Choice Voting – forrestdeters.com</title>
 </svelte:head>
 
-<main class="voting-tool max-w-xl" id="tool-main" tabindex="-1">
-  <p class="tool-kicker">Forrest Deters / Tools</p>
+<main class="voting-tool max-w-xl" id="main-content" tabindex="-1">
+  <nav class="tool-breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Forrest Deters</a></li>
+      <li aria-hidden="true">›</li>
+      <li><a href="/tools">Tools</a></li>
+      <li aria-hidden="true">›</li>
+      <li aria-current="page">Ranked Choice Voting</li>
+    </ol>
+  </nav>
   <h1>Ranked Choice Voting</h1>
   <p class="mt-1 text-base text-gray-600 dark:text-gray-400">
-    Can't decide where to eat or what to do? Add your options, have everyone
-    fill out a ballot, and let ranked-choice voting pick a winner.
+    Group decision-making is hard. Maximize satisfaction and minimize grumbling
+    with ranked-choice voting!
+  </p>
+  <p class="mt-3 text-base text-gray-600 dark:text-gray-400">
+    Add your options, have everyone fill out a ballot, and let ranked-choice
+    voting reveal the winner.
   </p>
 
   <!-- ── Options ─────────────────────────────────────────────────────────── -->
