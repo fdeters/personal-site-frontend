@@ -49,3 +49,64 @@ Apply per-election and per-request quotas, with bounded ballot and option counts
 6. Should elections expire, and who can delete them? What retention period applies to elections and result snapshots?
 7. Should participants be able to submit a ballot before sharing is enabled, or must setup be complete before voting starts?
 8. Is an opaque share link sufficient access control when anyone who obtains it may view and potentially edit the election?
+
+## Decision record
+
+The product decisions below are taken from the owner-authored [parent issue #12](https://github.com/fdeters/personal-site-frontend/issues/12). The owner also confirmed in [a comment on issue #12](https://github.com/fdeters/personal-site-frontend/issues/12#issuecomment-6802877176) that a Supabase project with the Data API is available for this feature.
+
+| Topic                       | Decision                                                                                                                                                                                        | Approval                            |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| Accounts and ballot editing | No login is required. Anyone with the election link can add ballots and edit any existing ballot; the service cannot verify ballot ownership.                                                   | Owner-approved in issue #12         |
+| Setup and options           | The setup creator supplies options and chooses whether to lock them. At least one option must exist before the election is shareable.                                                           | Owner-approved in issue #12         |
+| Option changes              | Changes do not invalidate ballots. Existing ballots are updated to reflect the option set and marked out of date. Stable option IDs preserve rankings across edits.                             | Owner-approved in issue #12         |
+| Finalization                | Show a confirmation with the ballot count and names. Finalization may happen again after edits; retain the first result and each later result alongside the current tally.                      | Owner-approved in issue #12         |
+| Persistence                 | Use the existing Supabase project and its Data API.                                                                                                                                             | Owner-approved in issue #12 comment |
+| Ballot visibility           | Whether names and rankings are visible to link-holders before finalization is not specified.                                                                                                    | Owner approval needed               |
+| Unlocked options            | Whether every link-holder may change unlocked options, and who may lock or unlock them after setup, is not specified. Without accounts, link-based access cannot distinguish the setup creator. | Owner approval needed               |
+| Rename and removal          | Rename/removal behavior and their effect on rankings and stale warnings are not specified.                                                                                                      | Owner approval needed               |
+| Retention and deletion      | Expiration, deletion authority, and retention duration are not specified.                                                                                                                       | Owner approval needed               |
+
+### Supabase Data API design
+
+- Keep all database access behind SvelteKit server endpoints. The share URL is a bearer capability; use a high-entropy random token, store only its hash, avoid putting it in logs or analytics, and return restrictive referrer handling. Do not expose a Supabase service-role key to the browser.
+- Use the Data API with server-side authorization and database constraints. Enable row-level security on every exposed table and deny direct anonymous table access. A narrowly scoped server-only database role or RPC should perform authorized operations; it must validate the election capability and never trust client-supplied election IDs as proof of access.
+- Model elections, options, ballots, and result snapshots separately. Give options stable IDs and an election option-set version. Store ballot rankings as ordered option IDs, and track the option-set version each ballot last acknowledged. Retain removed options as inactive records rather than reusing IDs; tally only active options. Any option-set change marks affected ballots out of date while preserving their existing ranking data.
+- Validate and bound names, labels, ranking references, option and ballot counts, payload sizes, and request rates at the server boundary, with database constraints for invariants. Treat names and labels as plain text.
+- Use optimistic versions for ballot and option edits so stale writes fail explicitly. Perform finalization in one database transaction: lock or compare the election version, read a consistent set of active options and ballots, calculate the result from that set, and insert a snapshot with its input version and timestamp. Make snapshots append-only and distinguish the first (original) result, later finalized results, and the live tally.
+- Enforce per-election quotas and creation/write rate limits. Keep retention and deletion policy configurable until the owner decides those product rules; apply deletion to election data and snapshots consistently.
+
+The table/role/RPC details and the unresolved product rules above should be confirmed before migrations are implemented. The decisions here do not imply that the owner has approved those remaining choices.
+
+## Implementation sub-issue drafts
+
+These are phased, issue-ready scopes for the parent feature. Implement them in order; phases that depend on the unresolved decisions above should not start until those decisions are approved.
+
+### 1. Add Supabase election schema and server access
+
+Create migrations for elections, options, ballots, and append-only result snapshots. Add server-only Supabase Data API access, capability validation, row-level security or narrowly scoped server RPCs, input constraints, optimistic versions, and safe error responses. Keep all privileged credentials server-side.
+
+**Acceptance criteria:** Direct anonymous table access is denied; server operations require a valid election capability; invalid or stale writes are rejected; constraints bound stored data; no secret is included in client bundles.
+
+### 2. Build election setup and share links
+
+Add setup for a named election, one or more options, and the initial option-lock choice. Persist the election and provide its share link only after valid setup. Show clear bearer-link access information.
+
+**Acceptance criteria:** An election without a valid option cannot be shared; generated links are unguessable and not enumerable; option lock state is persisted; accessible setup and copy-link feedback are provided.
+
+### 3. Add shared ballot and option editing
+
+Replace local-only persistence for shared elections with server-backed ballots and options. Let link-holders add and edit named ballots, synchronize ballots to option-set changes without losing existing rankings, and display out-of-date status. Apply approved visibility and unlocked-option permissions.
+
+**Acceptance criteria:** Ballots use stable option IDs; concurrent stale edits fail visibly instead of overwriting newer data; option changes preserve rankings and mark affected ballots out of date; values are validated and rendered as text.
+
+### 4. Add atomic finalization and result history
+
+Add the “Votes are in!” confirmation, server-side tallying, atomic immutable result snapshots, and presentation of original, subsequent finalized, and current results.
+
+**Acceptance criteria:** Confirmation lists the current ballot count and names; finalization operates on a consistent server snapshot; repeating finalization preserves prior snapshots; later edits affect the current tally but do not alter saved results.
+
+### 5. Apply retention, deletion, and abuse controls
+
+After the owner approves expiration and deletion behavior, implement that policy alongside election and request quotas, rate limits, and operational handling for expired or deleted share links.
+
+**Acceptance criteria:** Retention and deletion behavior is documented and applied consistently to ballots and snapshots; bounded resource and request limits are enforced server-side; expired/deleted capabilities no longer grant access.
