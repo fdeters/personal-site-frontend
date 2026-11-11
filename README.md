@@ -10,9 +10,11 @@ None right now.
 
 ## Feature research
 
-Requirements, architecture considerations, security guidance, and unresolved
-product questions for persistent ranked-choice elections are recorded in
-[`docs/ranked-choice-elections-research.md`](docs/ranked-choice-elections-research.md).
+Planning documents, architecture considerations, and unresolved product
+questions for tools are recorded here:
+
+- [Persistent ranked-choice elections](docs/ranked-choice-elections-research.md)
+- [Daily tabletop trivia game](docs/daily-trivia-game-plan.md)
 
 ## Developing
 
